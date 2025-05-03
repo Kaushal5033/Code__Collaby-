@@ -6,7 +6,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
 import Collaborate from "./pages/Collaboration";
-// import VerifyOtpPage from "./pages/Verifyotp"
+import Dashboard from "./pages/dashboard";
+import Verifyotp from "./pages/Verifyotp.jsx";
+
 
 export default function App() {
   return (
@@ -24,7 +26,8 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/collaborate" element={<Collaborate />} />
-        {/* <Route path="/verifyotp" element={<VerifyOtpPage />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/verifyotp" element={<Verifyotp />} />
       </Routes>
       <Footer />
     </>
