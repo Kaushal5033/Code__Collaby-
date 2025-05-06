@@ -1,13 +1,65 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import HomeBg from "../Assets/bg.svg";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [loginFormData, setLoginFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  // const [isVisible, setIsVisible] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Handle input changes
+  const handleChange = (e) => {
+    setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
+  };
+
+  // Handle login form submission
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // chele yha bhi krde kaam ftafat
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    const { email, password } = loginFormData;
+
+    // Simple validation
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/users/login", {
+        email,
+        password,
+      }, {
+        withCredentials: true
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem('userId', response.data.data);
+        setSuccess(response.data.message || "Login successful!");
+        
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1000);
+      }
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.message || "Login failed. Please try again.");
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,13 +71,14 @@ export default function Login() {
         <h1 className="text-4xl font-extrabold text-white drop-shadow-lg mb-2">
           Login 
         </h1>
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <input
               type="email"
+              name="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={loginFormData.email}
+              onChange={handleChange}
               className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
               required
             />
@@ -33,9 +86,10 @@ export default function Login() {
           <div>
             <input
               type="password"
+              name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginFormData.password}
+              onChange={handleChange}
               className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
               required
             />
@@ -47,6 +101,9 @@ export default function Login() {
             Login
           </button>
         </form>
+        {error && <div className="text-red-500 text-center mb-4 transition-opacity duration-10">{error}</div>}
+        {success && <div className="text-green-500 text-center mb-4 transition-opacity duration-10">{success}</div>}
+
         <div className="text-white/80 text-base">
           Don't have an account?{' '}
           <a href="/signup" className="text-white font-semibold underline hover:text-blue-300 transition">Sign up here</a>

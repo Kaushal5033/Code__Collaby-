@@ -8,6 +8,8 @@ import About from "./pages/About";
 import Collaborate from "./pages/Collaboration";
 import Dashboard from "./pages/dashboard";
 import Verifyotp from "./pages/Verifyotp.jsx";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 export default function App() {
@@ -15,19 +17,20 @@ export default function App() {
     <>
       <Navbar />
       <Routes>
-        {/* <Route element={<ProtectedRoute forAuthPages={true} />}>
-          <Route path="/" element={<Home />} />
+      <Route path="/verifyotp" element={<Verifyotp />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/collaborate" element={<Collaborate />} />
+      <Route path="/" element={<Home />} />
+
+      <Route element={<ProtectedRoute forAuthPages={true} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/about" element={<About />} />
-        </Route> */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/collaborate" element={<Collaborate />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/verifyotp" element={<Verifyotp />} />
+      </Route>
+       
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
+        </Route>
       </Routes>
       <Footer />
     </>
