@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import HomeBg from "../Assets/bg.svg";
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
+import Loader from "../components/Loader"
 
 const Verifyotp = () => {
   const [otpValue, setOtpValue] = useState("");
@@ -85,86 +88,91 @@ const Verifyotp = () => {
     setResMessage("");
   };
 
+  if (isVerifying) {
+    return <Loader />;
+  }
+
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center p-8 bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${HomeBg})` }}
-    >
-      <div className="relative z-10 mx-auto max-w-md w-full p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-8">
-        <h1 className="text-4xl font-extrabold text-white drop-shadow-lg mb-2">
-          Verify OTP
-        </h1>
-        <p className="text-white/80">
-          Please enter the 6-digit code sent to your email
-        </p>
-
-        <form className="space-y-6" onSubmit={handleVerifyOtp}>
-          <input
-            type="text"
-            maxLength={6}
-            value={otpValue}
-            onChange={handleChange}
-            className="w-full px-4 py-3 text-center text-2xl bg-white/80 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter OTP"
-            required
-          />
-
-          <button
-            type="submit"
-            className="w-full px-5 py-3 bg-blue-600/80 text-white text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300"
-          >
-            {isVerifying ? (
-              <>
-                {/* <FaSpinner className="animate-spin" /> */}
-                <span>Verifying...</span>
-              </>
-            ) : verificationComplete ? (
-              <>
-                {/* <FaCheck /> */}
-                <span>Verified!</span>
-              </>
-            ) : (
-              <span>Verify</span>
-            )}
-          </button>
-        </form>
-        {errorMessage && (
-          <p className="text-red-500 text-center mt-4 transition-opacity duration-15">
-            {errorMessage}
+    <>
+      <Navbar/>
+      <div
+        className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
+        style={{ backgroundImage: `url(${HomeBg})` }}
+      >
+        <div className="relative z-10 mx-auto w-full max-w-md p-4 sm:p-6 md:p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-6 sm:space-y-8">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg">
+            Verify OTP
+          </h1>
+          <p className="text-white/80 text-sm sm:text-base">
+            Please enter the 6-digit code sent to your email
           </p>
-        )}
-        {resMessage && (
-          <p className="text-green-500 text-center mt-4 transition-opacity duration-15">
-            {resMessage}
-          </p>
-        )}
-        <div className="text-white/80 text-base">
-          {canResend ? (
+
+          <form className="space-y-4 sm:space-y-6" onSubmit={handleVerifyOtp}>
+            <input
+              type="text"
+              maxLength={6}
+              value={otpValue}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 sm:py-3 text-center text-xl sm:text-2xl bg-white/80 text-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter OTP"
+              required
+            />
+
             <button
-              onClick={handleResend}
-              className="text-white font-semibold underline hover:text-blue-300 transition"
+              type="submit"
+              disabled={isVerifying || verificationComplete}
+              className="w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Resend OTP
+              {isVerifying ? (
+                <span>Verifying...</span>
+              ) : verificationComplete ? (
+                <span>Verified!</span>
+              ) : (
+                <span>Verify</span>
+              )}
             </button>
-          ) : (
-            <p>
-              didn't receive the OTP?
-              <br />
-              Resend OTP in {formatTime(timer)}
+          </form>
+
+          {errorMessage && (
+            <p className="text-red-500 text-sm sm:text-base text-center transition-opacity duration-300">
+              {errorMessage}
             </p>
           )}
-        </div>
+          {resMessage && (
+            <p className="text-green-500 text-sm sm:text-base text-center transition-opacity duration-300">
+              {resMessage}
+            </p>
+          )}
 
-        <div className="text-white/80 text-base">
-          <Link
-            to="/login"
-            className="text-white font-semibold underline hover:text-blue-300 transition"
-          >
-            Back to Login
-          </Link>
+          <div className="text-white/80 text-sm sm:text-base">
+            {canResend ? (
+              <button
+                onClick={handleResend}
+                className="text-white font-semibold underline hover:text-blue-300 transition"
+              >
+                Resend OTP
+              </button>
+            ) : (
+              <p>
+                didn't receive the OTP?
+                <br />
+                Resend OTP in {formatTime(timer)}
+              </p>
+            )}
+          </div>
+
+          <div className="text-white/80 text-sm sm:text-base">
+            <Link
+              to="/login"
+              className="text-white font-semibold underline hover:text-blue-300 transition"
+            >
+              Back to Login
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 };
 
