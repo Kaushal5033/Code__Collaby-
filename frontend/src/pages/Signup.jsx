@@ -1,7 +1,10 @@
 import HomeBg from "../Assets/bg.svg";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
+import Loader from "../components/Loader"
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -13,12 +16,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,89 +77,97 @@ export default function Signup() {
     }
   };
 
-  return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center p-8 bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${HomeBg})` }}
-    >
-      <div className="relative z-10 mx-auto max-w-md w-full p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-8">
-        <h1 className="text-4xl font-extrabold text-white drop-shadow-lg mb-2">
-          Sign Up
-        </h1>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-5 py-3 rounded-xl bg-white/80 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="w-full px-5 py-3 bg-blue-600/80 text-white text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300"
-          >
-            {loading ? 'Creating Account...' : 'Sign Up'}
-          </button>
-        </form>
-        {error && (
-          <p className="text-red-500 text-center mt-4 transition-opacity duration-15">
-            {error}
-          </p>
-        )}
-        {success && (
-          <p className="text-green-500 text-center mt-4 transition-opacity duration-15">
-            {success}
-          </p>
-        )}
+  if (loading) {
+    return <Loader />;
+  }
 
-        <div className="text-white/80 text-base">
-          Already have an account?{" "}
-          <a
-            href="/login"
-            className="text-white font-semibold underline hover:text-blue-300 transition"
-          >
-            Login here
-          </a>
+  return (
+    <>
+      <Navbar/>
+      <div
+        className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
+        style={{ backgroundImage: `url(${HomeBg})` }}
+      >
+        <div className="relative z-10 mx-auto w-full max-w-md p-4 sm:p-6 md:p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-6 sm:space-y-8">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg">
+            Sign Up
+          </h1>
+          <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Creating Account...' : 'Sign Up'}
+            </button>
+          </form>
+          {error && (
+            <p className="text-red-500 text-sm sm:text-base text-center transition-opacity duration-300">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p className="text-green-500 text-sm sm:text-base text-center transition-opacity duration-300">
+              {success}
+            </p>
+          )}
+
+          <div className="text-white/80 text-sm sm:text-base">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="text-white font-semibold underline hover:text-blue-300 transition"
+            >
+              Login here
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 }
