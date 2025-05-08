@@ -2,6 +2,7 @@ import express, { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.route.js";
+import compilerRoutes from "./routes/compiler.routes.js";
 
 
 
@@ -19,5 +20,6 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '16kb' }));
 //mounting routes
 app.use("/api/users", userRoute);
+app.use("/api/compiler", compilerRoutes);
 
 export default app;

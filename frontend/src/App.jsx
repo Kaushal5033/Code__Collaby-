@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
-import Collaborate from "./pages/Collaboration";
+import Collaborate from "./pages/Collaborate.jsx";
 import Dashboard from "./pages/dashboard";
 import Verifyotp from "./pages/Verifyotp.jsx";
 import Profile from "./pages/Profile";
