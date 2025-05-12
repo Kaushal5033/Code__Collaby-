@@ -7,9 +7,9 @@ import { cpp } from "@codemirror/lang-cpp";
 import { python } from "@codemirror/lang-python";
 import { java } from "@codemirror/lang-java";
 import axios from "axios";
+import RoomMembers from "../components/RoomMembers.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-
 
 const Editor = () => {
   const [language, setLanguage] = useState("javascript");
@@ -28,9 +28,9 @@ const Editor = () => {
     java: java(),
   };
   const roomMembers = [
-    { id: 1, name: "John Doe", color: "blue" },
-    { id: 2, name: "Jane Smith", color: "green" },
-    { id: 3, name: "Mike Johnson", color: "purple" },
+    { Socketid: 1, name: "John Doe " },
+    { Socketid: 2, name: "Jane Smith" },
+    { Socketid: 3, name: "Mike Johnson" },
   ];
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
@@ -97,23 +97,24 @@ const Editor = () => {
         {/* Left Sidebar - Room Members */}
         <div className="w-64 mt-16 bg-slate-900 border-r border-white/10 flex flex-col">
           <div className="p-4 flex-1">
-            <h3 className="text-lg font-semibold text-white mb-4">Room Members</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Room Members
+            </h3>
             <div className="space-y-2">
               {roomMembers.map((member) => (
-                <div key={member.id} className="flex items-center space-x-2 p-2 rounded-lg bg-white/5">
-                  <div className={`w-8 h-8 rounded-full bg-${member.color}-500`}></div>
-                  <span className="text-sm">{member.name}</span>
-                </div>
+                <RoomMembers key={member.Socketid} username={member.name} />
               ))}
             </div>
+          </div>
+
+          <div className="p-4 border-t border-white/10">
+            <button className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+              Copy Room ID
+            </button>
             <button className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
               Leave Room
             </button>
           </div>
-          
-          {/* <div className="p-4 border-t border-white/10">
-            
-          </div> */}
         </div>
 
         {/* Main Content Area */}
@@ -121,8 +122,8 @@ const Editor = () => {
           {/* Editor Section */}
           <div className="flex-1 bg-white/5 mt-16 backdrop-blur-sm border-b border-white/10 flex flex-col">
             <div className="p-4 border-b border-white/10 flex justify-between items-center">
-              <select 
-                value={language} 
+              <select
+                value={language}
                 onChange={handleLanguageChange}
                 className="px-4 py-2 bg-white/5 text-white border border-white/10 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
@@ -132,21 +133,19 @@ const Editor = () => {
                   </option>
                 ))}
               </select>
-              <button 
-                onClick={handleExecuteCode} 
+              <button
+                onClick={handleExecuteCode}
                 disabled={loading}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium disabled:opacity-70 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
               >
                 {loading ? (
-                  <span className="flex items-center">
-                    Running...
-                  </span>
+                  <span className="flex items-center">Running...</span>
                 ) : (
                   "Run Code"
                 )}
               </button>
             </div>
-            
+
             <div className="flex-1 min-h-0">
               <CodeMirror
                 value={value}
@@ -163,7 +162,7 @@ const Editor = () => {
           <div className="h-1/3 bg-white/5 backdrop-blur-sm flex flex-col">
             <div className="border-b border-white/10">
               <nav className="flex">
-                <button 
+                <button
                   onClick={() => setActiveTab("input")}
                   className={`flex-1 py-4 px-1 text-center border-b-2 font-medium text-sm transition-colors ${
                     activeTab === "input"
@@ -173,7 +172,7 @@ const Editor = () => {
                 >
                   Input
                 </button>
-                <button 
+                <button
                   onClick={() => setActiveTab("output")}
                   className={`flex-1 py-4 px-1 text-center border-b-2 font-medium text-sm transition-colors ${
                     activeTab === "output"
@@ -210,7 +209,7 @@ const Editor = () => {
                       {output || "No output"}
                     </pre>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <h3 className="text-sm font-medium text-slate-400 mb-2">
@@ -235,7 +234,7 @@ const Editor = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

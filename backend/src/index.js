@@ -7,6 +7,9 @@ import app from './app.js';
 const server = http.createServer(app);
 const io = new socketIo(server);
 
+io.on('connection', (socket) => {
+    console.log('a user connected', socket.id);
+});
 
 dbConnection()
     .then(() => { console.log('Db connected') })
