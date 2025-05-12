@@ -2,14 +2,29 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import { v4 as uuidv4 } from 'uuid';
+import { toast } from "react-hot-toast";
 const Collaborate = () => {
   const [userName, setUserName] = useState("");
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
+  const generateRoomId = () => {
+    const newRoomId = uuidv4();
+    setRoomId(newRoomId);
+    toast.success("Room ID generated successfully");
+  };
 
-  const handleNavigation = () => {
-    navigate("/collaborate_2");
+  const joinroom = () => {  
+    if(roomId.trim() === "" || userName.trim() === "") {
+      toast.error("Please enter a room ID and user name");
+      return;
+    }
+    navigate(`/collaborate_2/${roomId}`,{
+      state: {
+        userName: {userName},
+      },
+    });
+    toast.success("Room joined successfully");
   };
 
   return (
@@ -62,25 +77,20 @@ const Collaborate = () => {
 
               <div className="space-y-6 pt-8">
                 <button
-                  onClick={handleNavigation}
+                  onClick={generateRoomId}
                   className="w-full bg-blue-500 text-white py-4 px-6 text-lg rounded-xl hover:bg-blue-600 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-slate-800 font-medium"
                 >
                   Create New Room
                 </button>
 
                 <button
-                  onClick={handleNavigation}
+                  onClick={joinroom}
                   className="w-full bg-green-500 text-white py-4 px-6 text-lg rounded-xl hover:bg-green-600 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-slate-800 font-medium"
                 >
                   Join Room
                 </button>
 
-                <button
-                  onClick={handleNavigation}
-                  className="w-full bg-blue-100 text-black py-4 px-6 text-lg rounded-xl hover:bg-blue-200 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-slate-800 font-medium"
-                >
-                  Start Solo Mode
-                </button>
+                
               </div>
             </div>
           </div>

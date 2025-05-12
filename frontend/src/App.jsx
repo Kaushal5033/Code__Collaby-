@@ -10,16 +10,18 @@ import Dashboard from "./pages/dashboard";
 import Verifyotp from "./pages/Verifyotp.jsx";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
 
 
 export default function App() {
   return (
     <>
+      <Toaster position="top-center" />
       <Routes>
       <Route path="/verifyotp" element={<Verifyotp />} />
       <Route path="/about" element={<About />} />
       <Route path="/collaborate" element={<Collaborate />} />
-      <Route path="/collaborate_2" element={<Collaborate_2 />} />
+      <Route path="/collaborate_2/:RoomId" element={<Collaborate_2 />} />
       <Route path="/" element={<Home />} />
 
       <Route element={<ProtectedRoute forAuthPages={true} />}>
