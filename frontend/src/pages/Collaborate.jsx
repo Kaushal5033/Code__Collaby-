@@ -21,7 +21,7 @@ const Collaborate = () => {
     }
     navigate(`/collaborate_2/${roomId}`,{
       state: {
-        userName: {userName},
+        userName: userName,
       },
     });
     toast.success("Room joined successfully");

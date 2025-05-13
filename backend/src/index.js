@@ -7,9 +7,40 @@ import app from './app.js';
 const server = http.createServer(app);
 const io = new socketIo(server);
 
+// Socket Connection starts ------------------------------------------------------------
+
+
+const userSocketMap = {};
+const getClientsInRoom = (roomId) => {
+    return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
+        (socketId) => {
+            return {
+                socketId,
+                userName: userSocketMap[socketId]
+            }
+        }
+    );
+}
 io.on('connection', (socket) => {
-    console.log('a user connected', socket.id);
+    console.log(`user connected: ${socket.id}`);
+    socket.on('join-room', ({roomId, userName}) => {
+       userSocketMap[socket.id] = userName;
+       socket.join(roomId);
+       const clientsInRoom = getClientsInRoom(roomId);
+       console.log(clientsInRoom)
+       // Now we need to send this information to all the clients in the room
+       clientsInRoom.forEach(({socketId}) => {
+        io.to(socketId).emit('clients-in-room', {
+            clientsInRoom,
+            userName,
+            socketId: socket.id
+        });
+       });
+       
+    });
 });
+
+// Socket Connection ends ------------------------------------------------------------
 
 dbConnection()
     .then(() => { console.log('Db connected') })
