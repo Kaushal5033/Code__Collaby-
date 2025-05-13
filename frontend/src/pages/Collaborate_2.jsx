@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { languages } from "../constants.js";
@@ -10,6 +10,10 @@ import axios from "axios";
 import RoomMembers from "../components/RoomMembers.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
+import { initSocket } from "../socket.jsx";
+import { useLocation ,useParams,useNavigate} from "react-router-dom";
+import { toast } from "react-hot-toast";
+
 
 const Editor = () => {
   const [language, setLanguage] = useState("javascript");
@@ -27,11 +31,9 @@ const Editor = () => {
     python: python(),
     java: java(),
   };
-  const roomMembers = [
-    { Socketid: 1, name: "John Doe " },
-    { Socketid: 2, name: "Jane Smith" },
-    { Socketid: 3, name: "Mike Johnson" },
-  ];
+  const [roomMembers, setRoomMembers] = useState([
+
+  ]);
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
@@ -90,6 +92,47 @@ const Editor = () => {
     }
   };
 
+  // Socket Connection starts ------------------------------------------------------------
+
+  const socketref = useRef(null);
+  const location = useLocation();
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const init = async () => {
+      socketref.current = await initSocket();
+      socketref.current.on("connect_error", (err) => handleErrors(err));
+      socketref.current.on("connect_failed", (err) => handleErrors(err));
+
+      const handleErrors = (err) => {
+        console.log("Error", err);
+        toast.error("Socket connection failed, Try again later");
+        navigate("/");
+      };
+      socketref.current.on("connect", () => {   
+        console.log("Connected to the server");
+      });
+      socketref.current.emit("join-room", {
+        roomId,
+        userName: location.state?.userName,
+      });
+      socketref.current.on("clients-in-room", ({clientsInRoom, userName, socketId}) => {
+        if(userName !== location.state?.userName){
+          toast.success(`${userName} joined the room`);
+        }
+        setRoomMembers(clientsInRoom);
+      });
+    }; 
+    init(); 
+  }, []);
+
+  if (!location.state?.userName) {
+    navigate("/");
+  }
+
+  // Socket Connection ends ------------------------------------------------------------
+
   return (
     <div className="flex flex-col h-screen bg-slate-800 text-white">
       <Navbar />
@@ -102,7 +145,7 @@ const Editor = () => {
             </h3>
             <div className="space-y-2">
               {roomMembers.map((member) => (
-                <RoomMembers key={member.Socketid} username={member.name} />
+                <RoomMembers key={member.socketId} username={member.userName} />
               ))}
             </div>
           </div>
