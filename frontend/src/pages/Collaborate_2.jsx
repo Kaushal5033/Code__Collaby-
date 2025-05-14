@@ -96,7 +96,7 @@ const Editor = () => {
 
   const socketref = useRef(null);
   const location = useLocation();
-  const { roomId } = useParams();
+  const { RoomId: roomId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,8 +123,20 @@ const Editor = () => {
         }
         setRoomMembers(clientsInRoom);
       });
+      socketref.current.on("user-disconnected", ({socketId, userName}) => {
+        toast.success(`${userName} left the room`);
+        setRoomMembers((prev) => prev.filter((member) => member.socketId !== socketId));
+      });
     }; 
     init(); 
+    return () => {
+      socketref.current.off("connect_error");
+      socketref.current.off("connect_failed");
+      socketref.current.off("connect");
+      socketref.current.off("clients-in-room");
+      socketref.current.off("user-disconnected");
+      socketref.current.disconnect();
+    };
   }, []);
 
   if (!location.state?.userName) {
@@ -132,6 +144,26 @@ const Editor = () => {
   }
 
   // Socket Connection ends ------------------------------------------------------------
+
+
+  const CopyRoomId = async () => {
+    if (!roomId) {
+      toast.error("Room ID is not available");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success("Room ID copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy room ID:", err);
+      toast.error("Failed to copy room ID. Please try copying manually.");
+    }
+  }
+
+  const LeaveRoom = () => {
+    navigate("/collaborate");
+  }
 
   return (
     <div className="flex flex-col h-screen bg-slate-800 text-white">
@@ -151,10 +183,10 @@ const Editor = () => {
           </div>
 
           <div className="p-4 border-t border-white/10">
-            <button className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+            <button onClick={CopyRoomId} className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
               Copy Room ID
             </button>
-            <button className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
+            <button onClick={LeaveRoom} className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
               Leave Room
             </button>
           </div>
@@ -197,6 +229,7 @@ const Editor = () => {
                 theme={oneDark}
                 extensions={[languageExtensions[language]]}
                 className="h-full"
+
               />
             </div>
           </div>

@@ -36,9 +36,21 @@ io.on('connection', (socket) => {
             socketId: socket.id
         });
        });
-       
     });
+    socket.on('disconnecting', () => {
+       const rooms = [...socket.rooms];
+       rooms.forEach((roomId) => {
+        socket.to(roomId).emit('user-disconnected', {
+            socketId: socket.id,
+            userName: userSocketMap[socket.id]
+        });
+       });
+       delete userSocketMap[socket.id];
+       socket.leave();
+       console.log('user disconnected', socket.id);
+    })
 });
+
 
 // Socket Connection ends ------------------------------------------------------------
 
