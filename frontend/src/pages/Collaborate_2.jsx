@@ -11,9 +11,8 @@ import RoomMembers from "../components/RoomMembers.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { initSocket } from "../socket.jsx";
-import { useLocation ,useParams,useNavigate} from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
 
 const Editor = () => {
   const [language, setLanguage] = useState("javascript");
@@ -31,9 +30,7 @@ const Editor = () => {
     python: python(),
     java: java(),
   };
-  const [roomMembers, setRoomMembers] = useState([
-
-  ]);
+  const [roomMembers, setRoomMembers] = useState([]);
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
@@ -100,6 +97,12 @@ const Editor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("Please log in to collaborate!");
+      navigate("/login");
+      return;
+    }
     const init = async () => {
       socketref.current = await initSocket();
       socketref.current.on("connect_error", (err) => handleErrors(err));
@@ -110,31 +113,43 @@ const Editor = () => {
         toast.error("Socket connection failed, Try again later");
         navigate("/");
       };
-      socketref.current.on("connect", () => {   
+      socketref.current.on("connect", () => {
         console.log("Connected to the server");
       });
       socketref.current.emit("join-room", {
         roomId,
         userName: location.state?.userName,
       });
-      socketref.current.on("clients-in-room", ({clientsInRoom, userName, socketId}) => {
-        if(userName !== location.state?.userName){
+      socketref.current.on("clients-in-room", ({ clientsInRoom, userName }) => {
+        if (userName !== location.state?.userName) {
           toast.success(`${userName} joined the room`);
         }
         setRoomMembers(clientsInRoom);
       });
-      socketref.current.on("user-disconnected", ({socketId, userName}) => {
+      socketref.current.on("user-disconnected", ({ socketId, userName }) => {
         toast.success(`${userName} left the room`);
-        setRoomMembers((prev) => prev.filter((member) => member.socketId !== socketId));
+        setRoomMembers((prev) =>
+          prev.filter((member) => member.socketId !== socketId)
+        );
       });
-    }; 
-    init(); 
+
+      // Add code sharing event listeners
+      socketref.current.on(
+        "code-update",
+        ({ code: newCode, language: newLanguage }) => {
+          setValue(newCode);
+          setLanguage(newLanguage);
+        }
+      );
+    };
+    init();
     return () => {
       socketref.current.off("connect_error");
       socketref.current.off("connect_failed");
       socketref.current.off("connect");
       socketref.current.off("clients-in-room");
       socketref.current.off("user-disconnected");
+      socketref.current.off("code-update");
       socketref.current.disconnect();
     };
   }, []);
@@ -144,7 +159,6 @@ const Editor = () => {
   }
 
   // Socket Connection ends ------------------------------------------------------------
-
 
   const CopyRoomId = async () => {
     if (!roomId) {
@@ -159,11 +173,22 @@ const Editor = () => {
       console.error("Failed to copy room ID:", err);
       toast.error("Failed to copy room ID. Please try copying manually.");
     }
-  }
+  };
 
   const LeaveRoom = () => {
     navigate("/collaborate");
-  }
+  };
+
+  const handleCodeChange = (editorValue) => {
+    setValue(editorValue);
+    if (socketref.current) {
+      socketref.current.emit("code-change", {
+        roomId,
+        code: editorValue,
+        language,
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-slate-800 text-white">
@@ -183,10 +208,16 @@ const Editor = () => {
           </div>
 
           <div className="p-4 border-t border-white/10">
-            <button onClick={CopyRoomId} className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+            <button
+              onClick={CopyRoomId}
+              className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors"
+            >
               Copy Room ID
             </button>
-            <button onClick={LeaveRoom} className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
+            <button
+              onClick={LeaveRoom}
+              className="p-4 border-t border-white/10 mt-5 w-full px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors"
+            >
               Leave Room
             </button>
           </div>
@@ -224,12 +255,11 @@ const Editor = () => {
             <div className="flex-1 min-h-0">
               <CodeMirror
                 value={value}
-                onChange={(editorValue) => setValue(editorValue)}
+                onChange={handleCodeChange}
                 height="100%"
                 theme={oneDark}
                 extensions={[languageExtensions[language]]}
                 className="h-full"
-
               />
             </div>
           </div>
