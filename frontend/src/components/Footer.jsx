@@ -50,13 +50,13 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white">Contact Us</h3>
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-center justify-center md:justify-start space-x-2">
-                <span>support@codecollaby.com</span>
+                <span>raikaushal5033@gmail.com</span>
               </li>
               <li className="flex items-center justify-center md:justify-start space-x-2">
-                <span>+1 (555) 123-4567</span>
+                <span>+91 8744968272</span>
               </li>
               <li className="flex items-center justify-center md:justify-start space-x-2">
-                <span>123 Tech Street, Silicon Valley</span>
+                <span>Delhi, India</span>
               </li>
             </ul>
           </div>

@@ -1,111 +1,107 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import HomeBg from "../Assets/bg.svg";
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
+import { IoAddCircleOutline } from "react-icons/io5";
+import { BsChatDots } from "react-icons/bs";
+import { HiDocumentDuplicate } from "react-icons/hi";
 
 const About = () => {
   return (
     <>
       <Navbar/>
       <div className="min-h-screen bg-gradient-to-b from-[#1E293B] to-[#111827]">
-        
+        {/* Hero Section */}
         <div className="relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
             <div className="text-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6">
-                About{" "}
+                Real-time{" "}
                 <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
-                  CodeCollaby
+                  Code Collaboration
                 </span>
               </h1>
               <p className="max-w-2xl mx-auto text-lg sm:text-xl text-gray-300">
-                Empowering developers to collaborate, innovate, and build amazing projects together.
+                Code together in real-time with your team, no matter where you are.
               </p>
             </div>
           </div>
         </div>
 
-        
+        {/* Main Features */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Our Mission</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">What We Offer</h2>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  At CodeCollaby, we're on a mission to revolutionize how developers collaborate. 
-                  We believe that the best code is written together, and we're building the tools 
-                  to make that collaboration seamless and efficient.
+                  CodeCollaby provides a seamless real-time coding environment where multiple developers 
+                  can work together simultaneously. Share your code, see changes in real-time, and 
+                  collaborate effectively with your team.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 rounded-xl p-4 text-center">
-                  <h3 className="text-2xl font-bold text-blue-400 mb-2">1000+</h3>
-                  <p className="text-gray-300">Active Projects</p>
+                  <h3 className="text-2xl font-bold text-blue-400 mb-2">Real-time</h3>
+                  <p className="text-gray-300">Instant Updates</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-4 text-center">
-                  <h3 className="text-2xl font-bold text-blue-400 mb-2">500+</h3>
-                  <p className="text-gray-300">Team Members</p>
+                  <h3 className="text-2xl font-bold text-blue-400 mb-2">Multi-user</h3>
+                  <p className="text-gray-300">Team Coding</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-4 text-center">
-                  <h3 className="text-2xl font-bold text-blue-400 mb-2">50+</h3>
-                  <p className="text-gray-300">Countries</p>
+                  <h3 className="text-2xl font-bold text-blue-400 mb-2">4+</h3>
+                  <p className="text-gray-300">Languages</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-4 text-center">
-                  <h3 className="text-2xl font-bold text-blue-400 mb-2">24/7</h3>
-                  <p className="text-gray-300">Support</p>
+                  <h3 className="text-2xl font-bold text-blue-400 mb-2">Live</h3>
+                  <p className="text-gray-300">Code Execution</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        
+        {/* Features Grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-12">Key Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200">
               <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+                <IoAddCircleOutline className="w-6 h-6 text-blue-400" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Real-time Collaboration</h3>
-              <p className="text-gray-300">Code together in real-time with your team members, no matter where they are.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">Real-time Code Sync</h3>
+              <p className="text-gray-300">See code changes instantly as your team members type, with no delay.</p>
             </div>
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200">
               <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+                <BsChatDots className="w-6 h-6 text-blue-400" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Instant Messaging</h3>
-              <p className="text-gray-300">Communicate seamlessly with built-in chat and video conferencing.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">Multiple Languages</h3>
+              <p className="text-gray-300">Support for JavaScript, Python, Java, and C++ with syntax highlighting.</p>
             </div>
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200">
               <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
+                <HiDocumentDuplicate className="w-6 h-6 text-blue-400" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Project Management</h3>
-              <p className="text-gray-300">Organize tasks, track progress, and manage your projects efficiently.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">Live Code Execution</h3>
+              <p className="text-gray-300">Run your code in real-time and see the output instantly.</p>
             </div>
           </div>
         </div>
 
-        
+        {/* CTA Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 sm:p-12 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Collaborating?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Start Coding Together</h2>
             <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of developers who are already using CodeCollaby to build amazing projects together.
+              Create a room, invite your team, and start coding together in real-time.
             </p>
             <Link
-              to="/signup"
+              to="/collaborate"
               className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200"
             >
-              Get Started Now
+              Create Room
             </Link>
           </div>
         </div>

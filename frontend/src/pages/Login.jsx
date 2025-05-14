@@ -51,7 +51,8 @@ export default function Login() {
         setSuccess(response.data.message || "Login successful!");
         
         setTimeout(() => {
-          navigate('/dashboard');
+          // navigate('/dashboard');
+          navigate('/');
         }, 1000);
       }
     } catch (err) {

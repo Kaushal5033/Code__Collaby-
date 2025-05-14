@@ -15,6 +15,5 @@ export const initSocket = () => {
     reconnectionDelay: 1000,
     transports: ['websocket'],
   });
-
   return socket;
 };

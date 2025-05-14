@@ -37,6 +37,24 @@ io.on('connection', (socket) => {
         });
        });
     });
+
+    // Add code sharing events
+    socket.on('code-change', ({ roomId, code, language }) => {
+        socket.to(roomId).emit('code-update', {
+            code,
+            language,
+            userName: userSocketMap[socket.id]
+        });
+    });
+
+    socket.on('cursor-position', ({ roomId, position, userName }) => {
+        socket.to(roomId).emit('cursor-update', {
+            position,
+            userName,
+            socketId: socket.id
+        });
+    });
+
     socket.on('disconnecting', () => {
        const rooms = [...socket.rooms];
        rooms.forEach((roomId) => {

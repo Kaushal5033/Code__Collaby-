@@ -1,8 +1,46 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { HiMenu, HiX } from "react-icons/hi";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      // Fetch user data
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3000/api/users/dashboard/${userId}`, {
+            withCredentials: true
+          });
+          setUser(response.data.data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          localStorage.removeItem("userId");
+        }
+      };
+      fetchUserData();
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get('http://localhost:3000/api/users/logout', {
+        withCredentials: true
+      });
+      localStorage.removeItem("userId");
+      setUser(null);
+      navigate('/login');
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="bg-black backdrop-blur-sm shadow-md fixed w-full z-50">
@@ -43,20 +81,67 @@ const Navbar = () => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6 space-x-4">
-              <Link
-                to="/login"
-                className="text-gray-100 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium transition duration-300"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-300 transform hover:scale-105"
-              >
-                Sign Up
-              </Link>
-            </div>
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center space-x-2 text-gray-100 hover:text-blue-600 transition duration-300"
+                >
+                  <span className="text-sm font-medium">{user.fullName}</span>
+                  <IoIosArrowDown
+                    className={`h-5 w-5 transition-transform duration-200 ${
+                      isUserMenuOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* User Dropdown Menu */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-red  ring-black ring-opacity-5">
+                    <div className="py-1">
+                      {/* <Link
+                        to="/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        to="/dashboard/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        Profile
+                      </Link> */}
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-white  bg-red-600"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="ml-4 flex items-center md:ml-6 space-x-4">
+                <Link
+                  to="/login"
+                  className="text-gray-100 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium transition duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -65,28 +150,11 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-100 hover:text-blue-600 focus:outline-none"
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              {isMenuOpen ? (
+                <HiX className="h-6 w-6" />
+              ) : (
+                <HiMenu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -117,20 +185,53 @@ const Navbar = () => {
                 Collaborate
               </Link>
               <div className="pt-4 pb-3 border-t border-gray-700">
-                <Link
-                  to="/login"
-                  className="block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="block bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-300 mt-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Sign Up
-                </Link>
+                {user ? (
+                  <>
+                    <div className="px-3 py-2 text-base font-medium text-gray-100">
+                      {user.fullName}
+                    </div>
+                    <Link
+                      to="/dashboard"
+                      className="block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/dashboard/profile"
+                      className="block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="block w-full text-left text-red-600 hover:text-red-500 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="block bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition duration-300 mt-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

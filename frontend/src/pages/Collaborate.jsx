@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from "react-hot-toast";
+
 const Collaborate = () => {
   const [userName, setUserName] = useState("");
   const [roomId, setRoomId] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("Please login to use this feature");
+      navigate("/login");
+    }
+  }, [navigate]);
+
   const generateRoomId = () => {
     const newRoomId = uuidv4();
     setRoomId(newRoomId);
@@ -28,11 +38,11 @@ const Collaborate = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-800 text-white">
+    <div className="flex flex-col min-h-screen bg-slate-800 text-white">
       <Navbar />
 
-      <main className="flex-grow container mx-auto  min-h-svh">
-        <div className="max-w-2xl mt-44 mx-auto">
+      <main className="flex-1 flex items-center min-h-screen justify-center py-8 px-4">
+        <div className="w-full mt-24 max-w-2xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-white mb-4">
               Choose coding adventure
@@ -89,8 +99,6 @@ const Collaborate = () => {
                 >
                   Join Room
                 </button>
-
-                
               </div>
             </div>
           </div>
