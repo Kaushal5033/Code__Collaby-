@@ -38,7 +38,7 @@ const Collaborate = () => {
     <div className="flex flex-col min-h-screen bg-slate-800 text-white">
       <Navbar />
 
-      <div className="flex-1 flex items-center justify-center py-8 px-4">
+      <div className="flex-1 flex items-center min-h-screen justify-center py-8 px-4">
         <div className="w-full max-w-2xl mt-12">
           <div className="text-center mb-4">
             <h1 className="text-4xl font-bold mb-4">Choose coding adventure</h1>

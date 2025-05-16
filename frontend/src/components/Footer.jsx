@@ -50,10 +50,10 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white">Contact Us</h3>
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-center justify-center md:justify-start space-x-2">
-                <span>raikaushal5033@gmail.com</span>
+                <span>codecollaby07@gmail.com</span>
               </li>
               <li className="flex items-center justify-center md:justify-start space-x-2">
-                <span>+91 8744968272</span>
+                <span>+91 8744968272 , +91 8595433405</span>
               </li>
               <li className="flex items-center justify-center md:justify-start space-x-2">
                 <span>Delhi, India</span>

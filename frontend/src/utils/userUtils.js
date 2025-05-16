@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const fetchUserData = async (userId) => {
   try {
     const response = await axios.get(`/api/users/dashboard/${userId}`, {
@@ -20,6 +21,15 @@ export const getUserId = () => {
   return localStorage.getItem("userId");
 };
 
-export const logout = () => {
-  localStorage.removeItem("userId");
+export const logout = async () =>  {
+    try {
+      await axios.get('/api/users/logout', {
+        withCredentials: true
+      });
+      localStorage.removeItem("userId");
+    } catch (error) {
+      localStorage.removeItem("userId");
+      console.error("Logout failed:", error);
+    }
+  
 }; 
