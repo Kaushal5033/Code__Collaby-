@@ -16,9 +16,12 @@ const Navbar = () => {
       // Fetch user data
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/api/users/dashboard/${userId}`, {
-            withCredentials: true
-          });
+          const response = await axios.get(
+            `/api/users/dashboard/${userId}`,
+            {
+              withCredentials: true,
+            }
+          );
           setUser(response.data.data);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -31,12 +34,12 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get('http://localhost:3000/api/users/logout', {
-        withCredentials: true
+      await axios.get(`/api/users/logout`, {
+        withCredentials: true,
       });
       localStorage.removeItem("userId");
       setUser(null);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }

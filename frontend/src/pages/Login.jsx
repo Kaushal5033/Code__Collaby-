@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HomeBg from "../Assets/bg.svg";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
@@ -13,8 +14,6 @@ export default function Login() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   // const [isVisible, setIsVisible] = useState(false);
 
   // Handle input changes
@@ -39,7 +38,7 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/users/login", {
+      const response = await axios.post("/api/users/login", {
         email,
         password,
       }, {
@@ -48,7 +47,8 @@ export default function Login() {
 
       if (response.status === 200) {
         localStorage.setItem('userId', response.data.data);
-        setSuccess(response.data.message || "Login successful!");
+        // setSuccess(response.data.message || "Login successful!");
+        toast.success(response.data.message || "Login successful!");
         
         setTimeout(() => {
           // navigate('/dashboard');
@@ -57,9 +57,11 @@ export default function Login() {
       }
     } catch (err) {
       if (err.response) {
-        setError(err.response.data.message || "Login failed. Please try again.");
+        // setError(err.response.data.message || "Login failed. Please try again.");
+        toast.error(err.response.data.message || "Login failed. Please try again.");
       } else {
-        setError("An error occurred. Please try again later.");
+        // setError("An error occurred. Please try again later.");
+        toast.error("An error occurred. Please try again later.");
       }
     } finally {
       setLoading(false);
@@ -112,16 +114,6 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {error && (
-          <div className="text-red-500 text-sm sm:text-base text-center transition-opacity duration-300">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="text-green-500 text-sm sm:text-base text-center transition-opacity duration-300">
-            {success}
-          </div>
-        )}
 
         <div className="text-white/80 text-sm sm:text-base">
           Don't have an account?{' '}

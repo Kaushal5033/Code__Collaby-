@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -32,8 +31,8 @@ const userModel = mongoose.Schema({
 // Add a virtual field for confirmPassword (not stored in DB)
 userModel.virtual("confirmPassword").set(function (value) {
     this._confirmPassword = value; // Store it in a temporary variable
-  });
-  
+});
+
 
 userModel.pre("save", async function (next) {
     if (!this.isModified("password")) return next(); // Ensure password is only hashed if modified
@@ -47,35 +46,5 @@ userModel.pre("save", async function (next) {
     }
 });
 
-userModel.methods.generateAccessToken = function () {
-
-    try {
-        const accessToken = jwt.sign({
-            _id: this._id
-        }, process.env.TOKEN_SECRET, {
-            expiresIn: '1h'
-        })
-        return accessToken
-    } catch (error) {
-        console.log(error?.messages)
-        throw new ApiError(500, "error in generating accessToken")
-    }
-
-}
-
-userModel.methods.generateRefreshToken = function () {
-
-    try {
-        const refreshToken = jwt.sign({
-            _id: this._id
-        }, process.env.TOKEN_SECRET, {
-            expiresIn: '5d'
-        })
-        return refreshToken
-    } catch (error) {
-        console.log(error?.messages)
-        throw new ApiError(500, "error in generating refreshToken")
-    }
-}
 
 export const User = mongoose.model("User", userModel)

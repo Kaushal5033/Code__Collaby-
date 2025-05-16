@@ -5,6 +5,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import Loader from "../components/Loader"
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -30,11 +31,13 @@ export default function Signup() {
       !formData.password ||
       !formData.confirmPassword
     ) {
-      setError("Please fill in all fields.");
+      // setError("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+      // setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return false;
     }
     return true;
@@ -51,7 +54,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/users/signup",
+        "/api/users/signup",
         formData,
         {
           headers: {
@@ -60,8 +63,9 @@ export default function Signup() {
           withCredentials: true,
         }
       );
-      setSuccess("Navigation to verify OTP page");
-      console.log("Signup Success:", response.data);
+      // setSuccess("Navigation to verify OTP page");
+      toast.success("Navigation to verify OTP page");
+      // console.log("Signup Success:", response.data);
       setFormData({
         fullName: "",
         email: "",
@@ -70,7 +74,8 @@ export default function Signup() {
       });
       navigate("/verifyotp");
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong!");
+      // setError(err.response?.data?.message || "Something went wrong!");
+      toast.error(err.response?.data?.message || "Something went wrong!");
       console.error("Signup Error:", err);
     } finally {
       setLoading(false);

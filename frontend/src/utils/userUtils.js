@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchUserData = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/users/dashboard/${userId}`, {
+    const response = await axios.get(`/api/users/dashboard/${userId}`, {
       withCredentials: true
     });
     return response.data.data;

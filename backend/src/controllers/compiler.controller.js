@@ -1,86 +1,73 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
+import axios from "axios";
+import dotenv from "dotenv";
 
 dotenv.config();
 
+// JDoodle API credentials
+const { JDOODLE_CLIENT_ID, JDOODLE_CLIENT_SECRET, JUDGE0_API_URL } =
+  process.env;
 
-// Language versions as per JDoodle's latest supported versions
-const languageVersions = {
-  python3: "4",    // Python 3.9.4
-  java: "3",       // JDK 17.0.4
-  c: "4",          // GCC 11.1.0
-  cpp14: "3",      // G++ 11.1.0
-  nodejs: "3"      // Node.js 18.15.0
+// Language mappings and version indices for JDoodle
+const languageConfig = {
+  python3: { jdoodleLang: "python3", version: "4" },
+  java: { jdoodleLang: "java", version: "3" },
+  c: { jdoodleLang: "c", version: "4" },
+  cpp: { jdoodleLang: "cpp14", version: "3" },
+  javascript: { jdoodleLang: "nodejs", version: "3" },
 };
 
-// Mapping frontend language values to JDoodle's expected values
-const languageMapping = {
-  python3: "python3",
-  java: "java",
-  c: "c",
-  cpp: "cpp14",
-  javascript: "nodejs"
-};
-
-// JDoodle API credentials from environment variables
-const CLIENT_ID = process.env.JDOODLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.JDOODLE_CLIENT_SECRET;
-const JUDGE0_API_URL = process.env.JDOODLE_API_URL || "https://api.jdoodle.com/v1/execute";
-
-// Backend function to execute code
+// Main function to execute code
 const executeCode = async (req, res) => {
+  const { language, code, input = "" } = req.body;
+
+  if (!language || !code) {
+    return res
+      .status(400)
+      .json({ error: "Both 'language' and 'code' are required." });
+  }
+
+  const config = languageConfig[language];
+
+  if (!config) {
+    return res.status(400).json({ error: `Unsupported language: ${language}` });
+  }
+
+  const payload = {
+    clientId: JDOODLE_CLIENT_ID,
+    clientSecret: JDOODLE_CLIENT_SECRET,
+    script: code,
+    language: config.jdoodleLang,
+    versionIndex: config.version,
+    stdin: input,
+  };
+
   try {
-    const { language, code, input } = req.body;
-
-    if (!language || !code) {
-      return res.status(400).json({ error: "Language and code are required." });
-    }
-
-    const mappedLanguage = languageMapping[language] || language;
-    const versionIndex = languageVersions[mappedLanguage] || "0";
-
-    const requestData = {
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-      script: code,
-      language: mappedLanguage,
-      versionIndex,
-      stdin: input || ""
-    };
-
-    // console.log("Sending request to JDoodle:", requestData);
-
-    const response = await axios.post(JUDGE0_API_URL, requestData, {
+    const { data } = await axios.post(JUDGE0_API_URL, payload, {
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     });
 
-    // console.log("JDoodle API Response:", response.data); 
+    const { output = "No output", memory = "N/A", cpuTime = "N/A" } = data;
 
-    if (response.data && response.data.output !== undefined) {
-      res.json({
-        output: response.data.output || "No output",
-        memory: response.data.memory || "N/A",
-        cpuTime: response.data.cpuTime || "N/A"
-      });
-    } else {
-      res.status(500).json({ error: "Unexpected response from JDoodle API." });
-    }
+    res.json({ output, memory, cpuTime });
   } catch (error) {
-    console.error("Execution Error:", error);
+    console.error("JDoodle API Error:", error?.response?.data || error.message);
 
     if (error.response) {
+      const errData = error.response.data;
       res.status(500).json({
-        error: `Server Error: ${error.response.status} - ${
-          error.response.data.message || error.response.data.error || 'Unknown error'
-        }`
+        error: `JDoodle API Error: ${
+          errData?.message || errData?.error || "Unknown error"
+        }`,
       });
     } else if (error.request) {
-      res.status(500).json({ error: "No response received from the server." });
+      res.status(502).json({ error: "No response from JDoodle API." });
     } else {
-      res.status(500).json({ error: `Configuration Error: ${error.message}` });
+      res
+        .status(500)
+        .json({ error: `Request configuration error: ${error.message}` });
     }
   }
 };

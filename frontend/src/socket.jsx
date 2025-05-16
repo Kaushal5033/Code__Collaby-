@@ -13,7 +13,7 @@ export const initSocket = () => {
     reconnection: true,
     reconnectionAttempts: Infinity,
     reconnectionDelay: 1000,
-    transports: ['websocket'],
+    transports: ["websocket"],
   });
   return socket;
 };

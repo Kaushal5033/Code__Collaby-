@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 import HomeBg from "../Assets/bg.svg";
 import Navbar from "../components/Navbar"
@@ -45,14 +46,15 @@ const Verifyotp = () => {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     if (!otpValue) {
-      setErrorMessage("Please enter the OTP.");
+      // setErrorMessage("Please enter the OTP.");
+      toast.error("Please enter the OTP.");
       return;
     }
 
     setIsVerifying(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/verify-otp",
+        "/api/users/verify-otp",
         {
           otp: otpValue,
         },
@@ -65,7 +67,8 @@ const Verifyotp = () => {
       );
 
       setIsVerifying(false);
-      setResMessage(res.data.message);
+      // setResMessage(res.data.message);
+      toast.success(res.data.message);
       setErrorMessage(null);
       setVerificationComplete(true);
       setTimeout(() => navigate("/login"), 2000);
@@ -73,9 +76,11 @@ const Verifyotp = () => {
       setIsVerifying(false);
       setResMessage(null);
       if (error.response) {
-        setErrorMessage(error.response.data.message || "Something went wrong");
+        // setErrorMessage(error.response.data.message || "Something went wrong");
+        toast.error(error.response.data.message || "Something went wrong");
       } else {
-        setErrorMessage("Network error or server not reachable");
+        // setErrorMessage("Network error or server not reachable");
+        toast.error("Network error or server not reachable");
       }
     }
   };
