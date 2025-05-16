@@ -25,14 +25,13 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
 
     const { email, password } = loginFormData;
 
     // Simple validation
     if (!email || !password) {
-      setError("Both email and password are required.");
+      // setError("Both email and password are required.");
+      toast.error("Both email and password are required.");
       setLoading(false);
       return;
     }
@@ -51,8 +50,8 @@ export default function Login() {
         toast.success(response.data.message || "Login successful!");
         
         setTimeout(() => {
-          // navigate('/dashboard');
-          navigate('/');
+          navigate('/dashboard');
+          // navigate('/');
         }, 1000);
       }
     } catch (err) {
