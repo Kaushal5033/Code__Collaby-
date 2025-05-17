@@ -21,6 +21,10 @@ const userModel = mongoose.Schema({
         type: String,
         required: [true, 'Password is required']
     },
+    bio:{
+        type: String,
+        default: "Hey there! I'm using CodeCollaby."
+    },
     refreshToken: {
         type: String
     }

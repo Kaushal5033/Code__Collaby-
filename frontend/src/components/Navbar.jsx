@@ -2,8 +2,8 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-// import { IoIosArrowDown } from "react-icons/io";
 import {  getUserId ,logout } from "../utils/userUtils";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,15 +11,26 @@ const Navbar = () => {
   const userId = getUserId();
   const login_profile = () => {
     if (userId) {
-      navigate("/dashboard");
+      navigate("/edit-profile");
     } else {
       navigate("/login");
+    }
+  }
+  const dashboard_about = () => {
+    if (userId) {
+      navigate("/dashboard");
+    } else {
+      navigate("/about");
     }
   }
   const signup_logout = async () => {
     if (userId) {
       await logout();
       navigate("/login");
+      toast.success("Logout successful!", {
+        id: 'logout-success',
+        duration: 3000,
+      });
     } else {
       navigate("/signup");
     }
@@ -50,16 +61,13 @@ const Navbar = () => {
               >
                 Home
               </NavLink>
-              <NavLink
+              <button
                 to="/about"
-                className={({ isActive }) =>
-                  `text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 ${
-                    isActive ? "text-blue-600" : ""
-                  }`
-                }
+                className="text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                onClick = {dashboard_about}
               >
-                About
-              </NavLink>
+               {userId ? 'Dashboard' : 'About'}
+              </button>
               <NavLink
                 to="/collaborate"
                 className={({ isActive }) =>
@@ -82,7 +90,7 @@ const Navbar = () => {
                     `text-gray-100 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium transition duration-300`
                   }
                 >
-                  {userId ? "Dashboard" : "Login" }
+                  {userId ? "Your Profile" : "Login" }
                 </button>
                 <button
                   onClick={signup_logout}

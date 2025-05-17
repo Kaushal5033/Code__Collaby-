@@ -19,16 +19,25 @@ const Collaborate = () => {
 
   const handleGenerateRoom = () => {
     setRoomId(uuidv4());
-    toast.success("Room ID generated successfully");
+    toast.success("Room ID generated successfully",{
+      id: 'room-generated',
+      duration: 3000,
+    });
   };
 
   const handleJoinRoom = () => {
     if (!userName.trim() || !roomId.trim()) {
-      toast.error("Please enter a room ID and your name");
+      toast.error("Please enter a room ID and your name",{
+        id: 'room-error',
+        duration: 3000,
+      });
       return;
     }
 
-    toast.success("Joining room...");
+    toast.success("Joining room...",{
+      id: 'room-joining',
+      duration: 3000,
+    });
     navigate(`/collaborate_2/${roomId}`, {
       state: { userName },
     });
