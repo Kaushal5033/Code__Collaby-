@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import HomeBg from "../Assets/bg.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../components/Navbar"
@@ -31,7 +31,10 @@ export default function Login() {
     // Simple validation
     if (!email || !password) {
       // setError("Both email and password are required.");
-      toast.error("Both email and password are required.");
+      toast.error("Both email and password are required.",{
+        id: 'login-error',
+        duration: 3000,
+      });
       setLoading(false);
       return;
     }
@@ -47,7 +50,10 @@ export default function Login() {
       if (response.status === 200) {
         localStorage.setItem('userId', response.data.data);
         // setSuccess(response.data.message || "Login successful!");
-        toast.success(response.data.message || "Login successful!");
+        toast.success(response.data.message || "Login successful!",{
+          id: 'login-success',
+          duration: 3000,
+        });
         
         setTimeout(() => {
           navigate('/dashboard');
@@ -57,10 +63,16 @@ export default function Login() {
     } catch (err) {
       if (err.response) {
         // setError(err.response.data.message || "Login failed. Please try again.");
-        toast.error(err.response.data.message || "Login failed. Please try again.");
+        toast.error(err.response.data.message || "Login failed. Please try again.",{
+          id: 'login-failed',
+          duration: 3000,
+        });
       } else {
         // setError("An error occurred. Please try again later.");
-        toast.error("An error occurred. Please try again later.");
+        toast.error("An error occurred. Please try again later.",{
+          id: 'login-error',
+          duration: 3000,
+        });
       }
     } finally {
       setLoading(false);
@@ -113,12 +125,15 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
+        <Link to="/forgot-password" className="text-blue-400 font-semibold underline hover:text-blue-300 transition">
+            Forget Password?
+        </Link>
+        
         <div className="text-white/80 text-sm sm:text-base">
           Don't have an account?{' '}
-          <a href="/signup" className="text-white font-semibold underline hover:text-blue-300 transition">
+          <Link to="/signup" className="text-white font-semibold underline hover:text-blue-300 transition">
             Sign up here
-          </a>
+          </Link>
         </div>
       </div>
     </div>

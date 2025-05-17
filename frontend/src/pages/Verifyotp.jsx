@@ -10,8 +10,6 @@ import Loader from "../components/Loader"
 
 const Verifyotp = () => {
   const [otpValue, setOtpValue] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [resMessage, setResMessage] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationComplete, setVerificationComplete] = useState(false);
   const [timer, setTimer] = useState(120); // Start timer at 2 minutes (120 seconds)
@@ -46,8 +44,10 @@ const Verifyotp = () => {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     if (!otpValue) {
-      // setErrorMessage("Please enter the OTP.");
-      toast.error("Please enter the OTP.");
+      toast.error("Please enter the OTP.",{
+        id: 'otp-error',
+        duration: 3000,
+      });
       return;
     }
 
@@ -67,20 +67,24 @@ const Verifyotp = () => {
       );
 
       setIsVerifying(false);
-      // setResMessage(res.data.message);
-      toast.success(res.data.message);
-      setErrorMessage(null);
+      toast.success(res.data.message,{
+        id: 'otp-success',
+        duration: 3000,
+      });
       setVerificationComplete(true);
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       setIsVerifying(false);
-      setResMessage(null);
       if (error.response) {
-        // setErrorMessage(error.response.data.message || "Something went wrong");
-        toast.error(error.response.data.message || "Something went wrong");
+        toast.error(error.response.data.message || "Something went wrong",{
+          id: 'otp-error',
+          duration: 3000,
+        });
       } else {
-        // setErrorMessage("Network error or server not reachable");
-        toast.error("Network error or server not reachable");
+        toast.error("Network error or server not reachable",{
+          id: 'otp-network-error',
+          duration: 3000,
+        });
       }
     }
   };
@@ -89,8 +93,6 @@ const Verifyotp = () => {
     setTimer(120);
     setCanResend(false);
     setOtpValue("");
-    setErrorMessage("");
-    setResMessage("");
   };
 
   if (isVerifying) {
@@ -137,17 +139,6 @@ const Verifyotp = () => {
               )}
             </button>
           </form>
-
-          {errorMessage && (
-            <p className="text-red-500 text-sm sm:text-base text-center transition-opacity duration-300">
-              {errorMessage}
-            </p>
-          )}
-          {resMessage && (
-            <p className="text-green-500 text-sm sm:text-base text-center transition-opacity duration-300">
-              {resMessage}
-            </p>
-          )}
 
           <div className="text-white/80 text-sm sm:text-base">
             {canResend ? (

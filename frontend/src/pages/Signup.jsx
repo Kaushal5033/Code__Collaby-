@@ -1,5 +1,5 @@
 import HomeBg from "../Assets/bg.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar"
@@ -15,8 +15,6 @@ export default function Signup() {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,13 +29,17 @@ export default function Signup() {
       !formData.password ||
       !formData.confirmPassword
     ) {
-      // setError("Please fill in all fields.");
-      toast.error("Please fill in all fields.");
+      toast.error("Please fill in all fields.",{
+        id: 'signup-error',
+        duration: 3000,
+      });
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      // setError("Passwords do not match.");
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match.",{
+        id: 'signup-password-error',
+        duration: 3000,
+      });
       return false;
     }
     return true;
@@ -45,8 +47,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
 
     if (!validateForm()) return;
 
@@ -63,8 +63,10 @@ export default function Signup() {
           withCredentials: true,
         }
       );
-      // setSuccess("Navigation to verify OTP page");
-      toast.success("Navigation to verify OTP page");
+      toast.success("Navigation to verify OTP page",{
+        id: 'signup-success',
+        duration: 3000,
+      });
       // console.log("Signup Success:", response.data);
       setFormData({
         fullName: "",
@@ -74,8 +76,10 @@ export default function Signup() {
       });
       navigate("/verifyotp");
     } catch (err) {
-      // setError(err.response?.data?.message || "Something went wrong!");
-      toast.error(err.response?.data?.message || "Something went wrong!");
+      toast.error(err.response?.data?.message || "Something went wrong!",{
+        id: 'signup-error',
+        duration: 3000,
+      });
       console.error("Signup Error:", err);
     } finally {
       setLoading(false);
@@ -150,25 +154,15 @@ export default function Signup() {
               {loading ? 'Creating Account...' : 'Sign Up'}
             </button>
           </form>
-          {error && (
-            <p className="text-red-500 text-sm sm:text-base text-center transition-opacity duration-300">
-              {error}
-            </p>
-          )}
-          {success && (
-            <p className="text-green-500 text-sm sm:text-base text-center transition-opacity duration-300">
-              {success}
-            </p>
-          )}
 
           <div className="text-white/80 text-sm sm:text-base">
             Already have an account?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-white font-semibold underline hover:text-blue-300 transition"
             >
               Login here
-            </a>
+            </Link>
           </div>
         </div>
       </div>

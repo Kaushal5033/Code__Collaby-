@@ -75,7 +75,10 @@ const Editor = () => {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      toast.error("Please log in to collaborate!");
+      toast.error("Please log in to collaborate!",{
+        id: "login-error",
+        duration: 3000,
+      });
       navigate("/login");
       return;
     }
@@ -84,7 +87,10 @@ const Editor = () => {
       socketref.current = await initSocket();
       const handleErrors = (err) => {
         console.log("Error", err);
-        toast.error("Socket connection failed, Try again later");
+        toast.error("Socket connection failed, Try again later",{
+          id: "socket-error",
+          duration: 3000,
+        });
         navigate("/");
       };
 
@@ -123,10 +129,16 @@ const Editor = () => {
     if (!roomId) return toast.error("Room ID is not available");
     try {
       await navigator.clipboard.writeText(roomId);
-      toast.success("Room ID copied to clipboard");
+      toast.success("Room ID copied to clipboard",{
+        id: "room-id-copied",
+        duration: 3000,
+      });
     } catch (err) {
       console.error("Failed to copy room ID:", err);
-      toast.error("Failed to copy room ID. Please try copying manually.");
+      toast.error("Failed to copy room ID. Please try copying manually.",{
+        id: "room-id-copy-error",
+        duration: 3000,
+      });
     }
   };
 

@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import HomeBg from "../Assets/bg.svg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
@@ -73,6 +72,12 @@ const Dashboard = () => {
                 Here's what's happening with your projects
               </p>
             </div>
+            <Link
+              to ='/edit-profile'
+              className="px-4 py-2 bg-red-600/90 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+            >
+              Edit Profile
+            </Link>
             <button
               onClick={logOutHandler}
               className="px-4 py-2 bg-red-600/90 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"

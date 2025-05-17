@@ -1,59 +1,141 @@
-import React, { useState, useEffect } from 'react'
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import Loader from "../components/Loader"
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { fetchUserData, getUserId } from "../utils/userUtils";
+import { toast } from "react-hot-toast";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import axios from "axios";
 
-const Profile = () => {
-  const [loading, setLoading] = useState(true);
+const EditProfile = () => {
   const [userData, setUserData] = useState(null);
+  const [originalEmail, setOriginalEmail] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    bio: "",
+  });
+  const [showVerify, setShowVerify] = useState(false);
+
+  const userId = getUserId();
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-          // Handle no user ID case
-          return;
+        const data = await fetchUserData(userId);
+        if (data) {
+          setUserData(data);
+          setOriginalEmail(data.email);
+          setFormData({
+            name: data.fullName,
+            email: data.email,
+            bio: data.bio,
+          });
         }
-        // Add your API call here
-        // const response = await axios.get(`/api/users/${userId}`);
-        // setUserData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch user data", err);
+        toast.error("Failed to fetch user data")
       }
     };
 
-    fetchUserData();
-  }, []);
+    fetchData();
+  }, [userId]);
 
-  if (loading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    setShowVerify(formData.email !== originalEmail);
+  }, [formData.email, originalEmail]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`api/change-profile/${userId}`, formData);
+        toast.success("Profile updated successfully");
+        setUserData({ ...userData, ...formData });
+        setOriginalEmail(formData.email);
+    } catch (error) {
+      toast.error("Error updating profile");
+      console.error("Error updating profile", error);
+    }
+  };
 
   return (
-    <>
-      <Navbar/>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 md:p-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-              Profile
-            </h1>
-            <div className="space-y-4 sm:space-y-6">
-              {/* Profile content will go here */}
-              <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
-                Profile content coming soon...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Footer/>
-    </>
-  )
-}
+  <>
+ <Navbar />
+    <div className="min-h-screen bg-black text-white px-4 py-10 flex justify-center items-start">
+      <div className="bg-zinc-900 p-10 rounded-2xl shadow-xl w-full max-w-4xl mt-20">
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          Edit <span className="text-blue-500">Profile</span>
+        </h2>
 
-export default Profile
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block mb-1 text-sm">Full Name</label>
+            <input
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-sm">Email</label>
+            <input
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            {showVerify && (
+              <button
+                type="button"
+                className="bg-blue-600 hover:bg-blue-700 text-white mt-5 py-3 px-8 rounded-xl transition"
+                onClick={() => alert("Verification email sent")}
+              >
+                Verify Email
+              </button>
+            )}
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block mb-1 text-sm">Bio</label>
+            <textarea
+              name="bio"
+              value={formData.bio}
+              onChange={handleChange}
+              rows="3"
+              className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="md:col-span-2 flex flex-col md:flex-row justify-between items-center gap-4 mt-6">
+            <Link
+              to="/update-password"
+              className="text-red-500 hover:underline text-sm"
+            >
+              Change Password
+            </Link>
+
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl transition"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <Footer/>
+    </>
+  );
+};
+
+export default EditProfile;
