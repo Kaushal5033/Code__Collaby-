@@ -62,7 +62,7 @@ const UpdatePassword = () => {
               type="password"
               name="currentPassword"
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white"
+              className="update-password-input"
               required
             />
           </div>
@@ -72,7 +72,7 @@ const UpdatePassword = () => {
               type="password"
               name="newPassword"
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white"
+              className="update-password-input"
               required
             />
           </div>
@@ -82,7 +82,7 @@ const UpdatePassword = () => {
               type="password"
               name="confirmPassword"
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white"
+              className="update-password-input"
               required
             />
           </div>

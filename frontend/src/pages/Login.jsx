@@ -5,8 +5,8 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Loader from "../components/Loader";
 import loader from "../Assets/load2.svg";
+import "../styles/utilities.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export default function Login() {
         className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${HomeBg})` }}
       >
-        <div className="relative z-10 mx-auto w-full max-w-md p-4 sm:p-6 md:p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-6 sm:space-y-8">
+        <div className="login-div">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg">
             Login
           </h1>
@@ -87,7 +87,7 @@ export default function Login() {
                 placeholder="Email"
                 value={loginFormData.email}
                 onChange={handleChange}
-                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                className="login-input"
                 required
               />
             </div>
@@ -98,14 +98,14 @@ export default function Login() {
                 placeholder="Password"
                 value={loginFormData.password}
                 onChange={handleChange}
-                className="w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400"
+                className="login-input"
                 required
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="login-button"
             >
               {loading ? (
                 <img
@@ -120,7 +120,7 @@ export default function Login() {
           </form>
           <Link
             to="/forgot-password"
-            className="text-blue-400 font-semibold underline hover:text-blue-300 transition"
+            className="login-link"
           >
             Forget Password?
           </Link>
@@ -129,7 +129,7 @@ export default function Login() {
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-white font-semibold underline hover:text-blue-300 transition"
+              className="login-link"
             >
               Sign up here
             </Link>

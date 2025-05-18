@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
+import "../styles/utilities.css";
 
 const Collaborate = () => {
   const [userName, setUserName] = useState("");
@@ -34,7 +35,7 @@ const Collaborate = () => {
       return;
     }
 
-    toast.success("Joining room...",{
+    toast.success("Room Joined Successfully",{
       id: 'room-joining',
       duration: 3000,
     });
@@ -73,7 +74,7 @@ const Collaborate = () => {
                   id="userName"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
-                  className="w-full px-6 py-4 text-lg rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500   placeholder-slate-500"
+                  className="collaborate-input-output"
                   placeholder="Enter your name"
                   required
                 />
@@ -91,7 +92,7 @@ const Collaborate = () => {
                   id="roomId"
                   value={roomId}
                   onChange={(e) => setRoomId(e.target.value)}
-                  className="w-full px-6 py-4 text-lg rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent placeholder-slate-500"
+                  className="collaborate-input-output"
                   placeholder="Enter room ID to join"
                   required
                 />
@@ -101,7 +102,7 @@ const Collaborate = () => {
                 <button
                   type="button"
                   onClick={handleGenerateRoom}
-                  className="w-full bg-blue-500 text-white p-4 text-lg rounded-xl hover:bg-blue-600 transform hover:scale-[1.02] transition-all duration-200 font-medium"
+                  className="w-full bg-blue-600 text-white p-4 text-lg rounded-xl hover:bg-blue-600 transform hover:scale-[1.02] transition-all duration-200 font-medium"
                 >
                   Create New Room
                 </button>

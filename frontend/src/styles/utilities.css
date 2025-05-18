@@ -2,3 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+.footer-link {
+    @apply text-white hover:text-blue-600 transition duration-300;
+}
+.global-loader {
+    @apply w-2 h-2 rounded-full bg-blue-400 animate-bounce;
+}
+
+.nav-link{
+    @apply text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300;
+}
+.nav-link-mobile{
+    @apply block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300;
+}
+.update-password-input{
+    @apply w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white;
+}
+.compiler-input-output{
+    @apply text-sm font-medium text-slate-400 mb-2;
+}
+.collaborate-input-output{
+    @apply w-full px-6 py-4 text-lg rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent placeholder-slate-500;
+}
+.dashboard-quick-action{
+    @apply bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200 text-left;
+}
+.home-title{
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent;
+}
+.home-title-span{
+    @apply inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300;
+}
+.login-input{
+    @apply w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400;
+}
+.login-button{
+    @apply w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.login-link{
+    @apply text-blue-400 font-semibold underline hover:text-blue-300 transition;
+}
+.login-div{
+    @apply relative z-10 mx-auto w-full max-w-md p-4 sm:p-6 md:p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-6 sm:space-y-8;
+}
+.profile-input{
+    @apply w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+.signup-input{
+    @apply w-full px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-white/80 text-gray-800 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400;
+}
+.signup-button{
+    @apply w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+

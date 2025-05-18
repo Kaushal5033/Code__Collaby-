@@ -6,8 +6,21 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { toast } from "react-hot-toast";
+import "../styles/utilities.css";
 
 const Dashboard = () => {
+  const quickActions = [
+    {
+      title: "Create New Project",
+      description: "Start a new collaboration",
+      link: "/collaborate",
+    },
+    {
+      title: "Invite Team Members",
+      description: "Add new collaborators",
+      link: "/collaborate",
+    }
+  ];
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -82,7 +95,7 @@ const Dashboard = () => {
                 <div className="mt-4">
                   <button 
                     onClick={() => navigate("/edit-profile")}
-                    className="px-4 py-2 bg-red-600/90 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+                    className="px-4 py-2 bg-blue-600/90 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
                   >
                     Edit Profile
                   </button>
@@ -93,7 +106,7 @@ const Dashboard = () => {
                   onClick={handleShowProjects}
                   className="w-full sm:w-auto px-6 py-3 bg-blue-600/90 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
                 >
-                  Show Your Projects
+                  My Projects
                 </button>
               </div>
             </div>
@@ -101,24 +114,15 @@ const Dashboard = () => {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <a
-              href="/collaborate"
-              className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200 text-left"
-            >
-              <h3 className="text-white text-xl font-medium">Create New Project</h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Start a new collaboration
-              </p>
-            </a>
-            <a
-              href="/collaborate"
-              className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-colors duration-200 text-left"
-            >
-              <h3 className="text-white text-xl font-medium">Invite Team Members</h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Add new collaborators
-              </p>
-            </a>
+            {quickActions.map((action, index) => (
+              <div key={index} className="dashboard-quick-action">
+                <Link to={action.link} className="text-blue-500 text-lg font-semibold hover:text-blue-600">
+                  {action.title}
+                </Link>
+                <p className="text-gray-400">{action.description}</p>
+                
+              </div>
+            ))}
           </div>
         </div>
       </div>
