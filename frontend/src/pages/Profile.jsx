@@ -110,7 +110,7 @@ const EditProfile = () => {
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="profile-input"
                 required
               />
             </div>
@@ -123,7 +123,7 @@ const EditProfile = () => {
                 value={formData.email}
                 // onChange={handleChange}
                 disabled
-                className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="profile-input"
                 required
               />
               {showVerify && (
@@ -144,7 +144,7 @@ const EditProfile = () => {
                 value={formData.bio}
                 onChange={handleChange}
                 rows="3"
-                className="w-full px-4 py-2 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="profile-input"
               />
             </div>
 

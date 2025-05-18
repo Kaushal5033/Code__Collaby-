@@ -57,7 +57,7 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 ${
+                  `nav-link ${
                     isActive ? "text-blue-600" : ""
                   }`
                 }
@@ -66,7 +66,7 @@ const Navbar = () => {
               </NavLink>
               <button
                 to="/about"
-                className="text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                className="nav-link"
                 onClick = {dashboard_about}
               >
                {userId ? 'Dashboard' : 'About'}
@@ -74,7 +74,7 @@ const Navbar = () => {
               <NavLink
                 to="/collaborate"
                 className={({ isActive }) =>
-                  `text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 ${
+                  `nav-link ${
                     isActive ? "text-blue-600" : ""
                   }`
                 }
@@ -88,9 +88,9 @@ const Navbar = () => {
           <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6 space-x-4">
                 <button
-                  onClick={login_profile}
+                  onClick={login_profile} 
                   className={
-                    `text-gray-100 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium transition duration-300`
+                    `nav-link`
                   }
                 >
                   {userId ? "Your Profile" : "Login" }
@@ -129,7 +129,7 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300 ${
+                  `nav-link-mobile ${
                     isActive ? "text-blue-600" : ""
                   }`
                 }
@@ -140,7 +140,7 @@ const Navbar = () => {
               <NavLink
                 to="/about"
                 className={({ isActive }) =>
-                  `block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300 ${
+                  `nav-link-mobile ${
                     isActive ? "text-blue-600" : ""
                   }`
                 }
@@ -151,7 +151,7 @@ const Navbar = () => {
               <NavLink
                 to="/collaborate"
                 className={({ isActive }) =>
-                  `block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300 ${
+                  `nav-link-mobile ${
                     isActive ? "text-blue-600" : ""
                   }`
                 }
@@ -164,7 +164,7 @@ const Navbar = () => {
                     <NavLink
                       to="/login"
                       className={({ isActive }) =>
-                        `block text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition duration-300 ${
+                        `nav-link-mobile ${
                           isActive ? "text-blue-600" : ""
                         }`
                       }

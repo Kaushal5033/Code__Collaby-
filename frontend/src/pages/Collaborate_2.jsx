@@ -13,6 +13,7 @@ import Footer from "../components/Footer.jsx";
 import { initSocket } from "../socket.jsx";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import "../styles/utilities.css";
 
 const Editor = () => {
   const [language, setLanguage] = useState("javascript");
@@ -200,16 +201,16 @@ const Editor = () => {
               ) : (
                 <div className="h-full flex flex-col space-y-6">
                   <div className="flex-1 min-h-0">
-                    <h3 className="text-sm font-medium text-slate-400 mb-2">Output</h3>
+                    <h3 className="compiler-input-output">Output</h3>
                     <pre className={`h-[calc(100%-2rem)] ${inputOutputStyles} p-4 text-sm text-white overflow-auto`}>{output || "No output"}</pre>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <h3 className="text-sm font-medium text-slate-400 mb-2">Memory Usage</h3>
+                      <h3 className="compiler-input-output">Memory Usage</h3>
                       <div className={`${inputOutputStyles} p-3 text-sm`}>{memory || "N/A"}</div>
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-slate-400 mb-2">CPU Time</h3>
+                      <h3 className="compiler-input-output">CPU Time</h3>
                       <div className={`${inputOutputStyles} p-3 text-sm`}>{cpuTime || "N/A"}</div>
                     </div>
                   </div>

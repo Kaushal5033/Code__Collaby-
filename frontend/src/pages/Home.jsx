@@ -4,6 +4,7 @@ import HomeBg from "../Assets/bg.svg";
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { fetchUserData, isAuthenticated as checkAuth } from "../utils/userUtils";
+import "../styles/utilities.css";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,14 +33,14 @@ const Home = () => {
             {isAuthenticated ? (
               <>
                 Welcome back,{" "}
-                <span className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <span className="home-title">
                   {userName}!
                 </span>
               </>
             ) : (
               <>
                 Welcome to{" "}
-                <span className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <span className="home-title">
                   Code<span className="text-blue-400">Collaby</span>
                 </span>
               </>
@@ -54,7 +55,7 @@ const Home = () => {
             {isAuthenticated ? (
               <Link
                 to="/collaborate"
-                className="inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300"
+                className="home-title-span"
               >
                 Start Coding Now
               </Link>
@@ -62,7 +63,7 @@ const Home = () => {
               <>
                 <Link
                   to="/login"
-                  className="inline-block w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300"
+                  className="home-title-span"
                 >
                   Start Collaboration
                 </Link>
