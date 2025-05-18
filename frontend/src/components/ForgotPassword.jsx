@@ -2,13 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import loader from "../Assets/load2.svg";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async(e) => {
+
     e.preventDefault();
+    setLoading(true);
     try{
       const response = await axios.post("/api/change-password/forgot-password", { email });
       toast.success(response.data.message, {
@@ -51,8 +55,9 @@ const ForgotPassword = () => {
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg"
+            disabled={loading}
           >
-            Send Reset Link
+            {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Send Reset Link"}
           </button>
         </form>
       </div>

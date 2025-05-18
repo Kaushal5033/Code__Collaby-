@@ -2,10 +2,11 @@ import HomeBg from "../Assets/bg.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import Loader from "../components/Loader"
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 import toast from "react-hot-toast";
+import loader from "../Assets/load2.svg";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -29,15 +30,15 @@ export default function Signup() {
       !formData.password ||
       !formData.confirmPassword
     ) {
-      toast.error("Please fill in all fields.",{
-        id: 'signup-error',
+      toast.error("Please fill in all fields.", {
+        id: "signup-error",
         duration: 3000,
       });
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match.",{
-        id: 'signup-password-error',
+      toast.error("Passwords do not match.", {
+        id: "signup-password-error",
         duration: 3000,
       });
       return false;
@@ -53,18 +54,14 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "/api/users/signup",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success("Navigation to verify OTP page",{
-        id: 'signup-success',
+      await axios.post("/api/users/signup", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      toast.success("Navigation to verify OTP page", {
+        id: "signup-success",
         duration: 3000,
       });
       // console.log("Signup Success:", response.data);
@@ -76,23 +73,25 @@ export default function Signup() {
       });
       navigate("/verifyotp");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Something went wrong!",{
-        id: 'signup-error',
-        duration: 3000,
-      });
-      console.error("Signup Error:", err);
+      if (err.response) {
+        toast.error(err.response.data.message, {
+          id: "signup-error",
+          duration: 3000,
+        });
+      } else {
+        toast.error("Something went wrong!", {
+          id: "signup-error",
+          duration: 3000,
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div
         className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${HomeBg})` }}
@@ -151,7 +150,15 @@ export default function Signup() {
               disabled={loading}
               className="w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating Account...' : 'Sign Up'}
+              {loading ? (
+                <img
+                  src={loader}
+                  alt="Loading..."
+                  className="w-6 h-6 mx-auto animate-spin"
+                />
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </form>
 
@@ -166,7 +173,7 @@ export default function Signup() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

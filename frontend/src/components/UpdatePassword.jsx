@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { getUserId } from "../utils/userUtils";
+import loader from "../Assets/load2.svg";
 
 const UpdatePassword = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -19,6 +21,7 @@ const UpdatePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const userId = getUserId();
    try {
     const response = await axios.post(`api/update-password/${userId}`,formData)
@@ -86,8 +89,9 @@ const UpdatePassword = () => {
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl transition"
+            disabled={loading}
           >
-            Update Password
+            {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Update Password"}
           </button>
         </form>
       </div>
