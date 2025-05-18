@@ -4,26 +4,23 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import HomeBg from "../Assets/bg.svg";
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import Loader from "../components/Loader"
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import loader from "../Assets/load2.svg";
 
 const Verifyotp = () => {
   const [otpValue, setOtpValue] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationComplete, setVerificationComplete] = useState(false);
-  const [timer, setTimer] = useState(120); // Start timer at 2 minutes (120 seconds)
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(120);
   const [canResend, setCanResend] = useState(false);
   const navigate = useNavigate();
 
-  // Function to format time in MM:SS format
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
   };
 
-  // Handle timer for resend button
   useEffect(() => {
     let interval;
     if (timer > 0 && !canResend) {
@@ -43,15 +40,16 @@ const Verifyotp = () => {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!otpValue) {
-      toast.error("Please enter the OTP.",{
-        id: 'otp-error',
+      toast.error("Please enter the OTP.", {
+        id: "otp-error",
         duration: 3000,
       });
       return;
     }
 
-    setIsVerifying(true);
+    setLoading(true);
     try {
       const res = await axios.post(
         "/api/users/verify-otp",
@@ -66,26 +64,25 @@ const Verifyotp = () => {
         }
       );
 
-      setIsVerifying(false);
-      toast.success(res.data.message,{
-        id: 'otp-success',
+      toast.success(res.data.message, {
+        id: "otp-success",
         duration: 3000,
       });
-      setVerificationComplete(true);
-      setTimeout(() => navigate("/login"), 2000);
+      navigate("/login");
     } catch (error) {
-      setIsVerifying(false);
       if (error.response) {
-        toast.error(error.response.data.message || "Something went wrong",{
-          id: 'otp-error',
+        toast.error(error.response.data.message || "Something went wrong", {
+          id: "otp-error",
           duration: 3000,
         });
       } else {
-        toast.error("Network error or server not reachable",{
-          id: 'otp-network-error',
+        toast.error("Network error or server not reachable", {
+          id: "otp-network-error",
           duration: 3000,
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,14 +91,9 @@ const Verifyotp = () => {
     setCanResend(false);
     setOtpValue("");
   };
-
-  if (isVerifying) {
-    return <Loader />;
-  }
-
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div
         className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${HomeBg})` }}
@@ -127,15 +119,17 @@ const Verifyotp = () => {
 
             <button
               type="submit"
-              disabled={isVerifying || verificationComplete}
+              disabled={loading}
               className="w-full px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-600/80 text-white text-base sm:text-lg font-bold rounded-xl shadow-md hover:bg-blue-700/90 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isVerifying ? (
-                <span>Verifying...</span>
-              ) : verificationComplete ? (
-                <span>Verified!</span>
+              {loading ? (
+                <img
+                  src={loader}
+                  alt="Loading..."
+                  className="w-6 h-6 mx-auto animate-spin"
+                />
               ) : (
-                <span>Verify</span>
+                "Verify"
               )}
             </button>
           </form>
@@ -167,7 +161,7 @@ const Verifyotp = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };

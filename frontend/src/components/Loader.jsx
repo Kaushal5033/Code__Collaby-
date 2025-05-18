@@ -16,7 +16,6 @@ const Loader = () => {
         
         {/* Loading text with typing animation */}
         <div className="flex items-center space-x-2">
-          <span className="text-white text-lg">Loading</span>
           <div className="flex space-x-1">
             <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '0.1s' }}></div>
             <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>

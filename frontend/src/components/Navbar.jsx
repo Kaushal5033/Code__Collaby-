@@ -4,9 +4,11 @@ import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import {  getUserId ,logout } from "../utils/userUtils";
 import toast from "react-hot-toast";
+import loader from "../Assets/load2.svg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const userId = getUserId();
   const login_profile = () => {
@@ -25,6 +27,7 @@ const Navbar = () => {
   }
   const signup_logout = async () => {
     if (userId) {
+      setLoading(true);
       await logout();
       navigate("/login");
       toast.success("Logout successful!", {
@@ -97,8 +100,9 @@ const Navbar = () => {
                   className={
                     `${userId ? "bg-red-600" : "bg-blue-600"} text-white px-4 py-2 rounded-md text-sm font-medium ${userId ? "hover:bg-red-700" : "hover:bg-blue-700"} transition duration-300 transform hover:scale-105`
                   }
+                  disabled={loading}
                 >
-                  {userId ? "Logout" : "Sign Up"}
+                  {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : userId ? "Logout" : "Sign Up"}
                 </button>
               </div>
           </div>
