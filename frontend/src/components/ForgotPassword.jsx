@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import loader from "../Assets/load2.svg";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
     try{
-      const response = await axios.post("/api/change-password/forgot-password", { email });
+      const response = await axios.post(`${BASE_URL}/api/change-password/forgot-password`, { email });
       toast.success(response.data.message, {
         id: "forgot-password-success",
         duration: 3000,

@@ -1,9 +1,9 @@
 import axios from "axios";
-
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const fetchUserData = async (userId) => {
   try {
-    const response = await axios.get(`/api/users/dashboard/${userId}`, {
+    const response = await axios.get(`${BASE_URL}/api/users/dashboard/${userId}`, {
       withCredentials: true
     });
     return response.data.data;
@@ -23,7 +23,7 @@ export const getUserId = () => {
 
 export const logout = async () =>  {
     try {
-      await axios.get('/api/users/logout', {
+      await axios.get(`${BASE_URL}/api/users/logout`, {
         withCredentials: true
       });
       localStorage.removeItem("userId");

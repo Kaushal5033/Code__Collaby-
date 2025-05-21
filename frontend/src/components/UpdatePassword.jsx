@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { getUserId } from "../utils/userUtils";
 import loader from "../Assets/load2.svg";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const UpdatePassword = () => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const UpdatePassword = () => {
     setLoading(true);
     const userId = getUserId();
    try {
-    const response = await axios.post(`api/update-password/${userId}`,formData)
+    const response = await axios.post(`${BASE_URL}/api/update-password/${userId}`,formData)
     
     if(response.status == 200){
       toast.success(response.data.message, {

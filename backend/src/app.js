@@ -11,10 +11,21 @@ import changeProfile from "./routes/changeProfile.router.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",                     
+  "https://codecollaby-frontend.onrender.com"     
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl) or from allowedOrigins
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 app.use(cookieParser());
