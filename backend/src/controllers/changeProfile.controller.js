@@ -3,7 +3,6 @@ import {User} from '../models/user.model.js';
 
 const editProfile = async (req, res) => {
     const userId = req.params.userId;
-    console.log('User ID:', userId);
    if(!userId){
         return res.status(400).json({ message: 'User ID is required' });
     }
@@ -17,7 +16,6 @@ const editProfile = async (req, res) => {
 
         // Update the user profile in the database
         const updatedUser = await User.findByIdAndUpdate(userId, { fullName: name, email, bio }, { new: true });
-   console.log('Updated User:', updatedUser);
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }

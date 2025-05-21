@@ -27,9 +27,10 @@ export const logout = async () =>  {
         withCredentials: true
       });
       localStorage.removeItem("userId");
+      localStorage.removeItem("cachedProjects");
     } catch (error) {
       localStorage.removeItem("userId");
-      console.error("Logout failed:", error);
+      localStorage.removeItem("cachedProjects");
     }
   
 }; 
