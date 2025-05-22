@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import loader from "../Assets/load2.svg";
 import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const EditProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -66,7 +67,7 @@ const EditProfile = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`api/change-profile/${userId}`, formData);
+      await axios.post(`${BASE_URL}/api/change-profile/${userId}`, formData);
       toast.success("Profile updated successfully" , {
         id: "profile-updated",
         duration: 3000,

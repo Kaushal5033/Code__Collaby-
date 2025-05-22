@@ -7,6 +7,7 @@ import HomeBg from "../Assets/bg.svg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import loader from "../Assets/load2.svg";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Verifyotp = () => {
   const [otpValue, setOtpValue] = useState("");
@@ -52,7 +53,7 @@ const Verifyotp = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "/api/users/verify-otp",
+        `${BASE_URL}/api/users/verify-otp`,
         {
           otp: otpValue,
         },

@@ -10,13 +10,14 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     setLoading(true);
     try {
         const response = await axios.post(
-          `/api/change-password/reset-password/${token}`,
+          `${BASE_URL}/api/change-password/reset-password/${token}`,
           { password, confirmPassword }
         );
         if (response.status === 200) {

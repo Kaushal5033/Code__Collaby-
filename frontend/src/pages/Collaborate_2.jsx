@@ -14,6 +14,7 @@ import { initSocket } from "../socket.jsx";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import "../styles/utilities.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Editor = () => {
   const [language, setLanguage] = useState("javascript");
@@ -51,7 +52,7 @@ const Editor = () => {
     setLoading(true);
     try {
       const mappedLanguage = language === "python" ? "python3" : language;
-      const response = await axios.post("/api/compiler/execute", { language: mappedLanguage, code: value, input: stdin });
+      const response = await axios.post(`${BASE_URL}/api/compiler/execute`, { language: mappedLanguage, code: value, input: stdin });
       const result = response.data;
 
       if (result.error) {

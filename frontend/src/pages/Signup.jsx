@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import toast from "react-hot-toast";
 import loader from "../Assets/load2.svg";
 import "../styles/utilities.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -54,7 +55,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      await axios.post("/api/users/signup", formData, {
+      await axios.post(`${BASE_URL}/api/users/signup`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

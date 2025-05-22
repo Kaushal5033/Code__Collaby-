@@ -9,13 +9,13 @@ dbConnection()
     .then(() => { console.log('Db connected') })
     .catch((err) => { console.log('error while connecting to db', err) })
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT
 
-app.listen(PORT, () => {
-    console.log('App is listening on the port', PORT)
-})
+// app.listen(PORT, () => {
+//     console.log('App is listening on the port', PORT)
+// })
 
 app.get('/', (req, res) => { res.send('Welcome to Code Collaby') })
-server.listen(3000, () => {
-    console.log(`Server is running on http://localhost:3000`);
+server.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
 });

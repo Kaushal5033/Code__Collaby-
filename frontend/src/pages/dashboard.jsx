@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { toast } from "react-hot-toast";
 import "../styles/utilities.css";
-
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const Dashboard = () => {
   const quickActions = [
     {
@@ -36,7 +36,7 @@ const Dashboard = () => {
         }
 
         const response = await axios.get(
-          `api/users/dashboard/${userId}`,
+          `${BASE_URL}/api/users/dashboard/${userId}`,
           {
             withCredentials: true,
           }

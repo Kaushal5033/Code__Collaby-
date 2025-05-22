@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import loader from "../Assets/load2.svg";
 import "../styles/utilities.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Login() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "/api/users/login",
+        `${BASE_URL}/api/users/login`,
         {
           email,
           password,

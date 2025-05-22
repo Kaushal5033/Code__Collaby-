@@ -50,8 +50,12 @@ const verifyOtp = async (req, res) => {
             success: true,
             data: 'Email verified successfully. Signed Up.'
         });
+        res.clearCookie('verifyOtp', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+        } );
     } catch (error) {
-        console.log('Error in verifying OTP', error, error.message);
         res.status(500).json({
             success: false,
             data: error.message,

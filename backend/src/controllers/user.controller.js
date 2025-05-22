@@ -36,6 +36,7 @@ const registerUser = async (req, res) => {
     res.cookie('verifyOtp', verificationToken, {
       httpOnly: true,
       secure: true,
+      sameSite: 'none',
       maxAge: 5 * 60 * 1000, // 5 minutes
       path: '/'
     });
@@ -70,8 +71,17 @@ const userLogin = async (req, res) => {
     const refreshToken = generateRefreshToken(user._id);
 
     res
-      .cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }) // 1 day
-      .cookie('accessToken', accessToken, { httpOnly: true, secure: true });
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000
+      }) // 1 day
+      .cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+      });
 
     return res.status(200).json({ message: 'Login successful', success: true, data: user._id });
   } catch (error) {
