@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchUserData, getUserId } from "../utils/userUtils";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import loader from "../Assets/load2.svg";
@@ -9,6 +10,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const EditProfile = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [originalEmail, setOriginalEmail] = useState("");
@@ -24,15 +26,21 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchUserData(userId);
-        if (data) {
-          setUserData(data);
-          setOriginalEmail(data.email);
-          setFormData({
-            name: data.fullName,
-            email: data.email,
-            bio: data.bio,
+        const userData = await fetchUserData(userId);
+        setUserData(userData);
+        setOriginalEmail(userData.email);
+        setFormData({
+          name: userData.fullName,
+          email: userData.email,
+          bio: userData.bio,
+        });
+        if (userData.message || userData.success === false) {
+          toast.error(userData.message, {
+            id: "error",
+            duration: 2000,
           });
+          localStorage.removeItem("userId");
+          navigate("/login");
         }
       } catch (err) {
         if (err.response) {
@@ -45,7 +53,7 @@ const EditProfile = () => {
             id: "profile-update-error",
             duration: 3000,
           });
-        } 
+        }
       } finally {
         setLoading(false);
       }
@@ -63,19 +71,18 @@ const EditProfile = () => {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     setLoading(true);
     try {
       await axios.post(`${BASE_URL}/api/change-profile/${userId}`, formData);
-      toast.success("Profile updated successfully" , {
+      toast.success("Profile updated successfully", {
         id: "profile-updated",
         duration: 3000,
       });
       setUserData({ ...userData, ...formData });
       setOriginalEmail(formData.email);
     } catch (error) {
-      if (error.response) { 
+      if (error.response) {
         toast.error(error.response.data.message, {
           id: "profile-update-error",
           duration: 3000,
@@ -162,7 +169,15 @@ const EditProfile = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-xl transition"
                 disabled={loading}
               >
-                {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Save Changes"}
+                {loading ? (
+                  <img
+                    src={loader}
+                    alt="Loading..."
+                    className="w-6 h-6 mx-auto animate-spin"
+                  />
+                ) : (
+                  "Save Changes"
+                )}
               </button>
             </div>
           </form>

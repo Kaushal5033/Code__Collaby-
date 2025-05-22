@@ -75,12 +75,15 @@ const userLogin = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000,
+        path: '/'
       }) // 1 day
       .cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'none'
+        sameSite: 'none',
+        maxAge: 5 * 60 * 60 * 1000,
+        path: '/'
       });
 
     return res.status(200).json({ message: 'Login successful', success: true, data: user._id });

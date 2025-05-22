@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HomeBg from "../Assets/bg.svg";
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import { fetchUserData, isAuthenticated as checkAuth } from "../utils/userUtils";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { toast } from "react-hot-toast";
+import {
+  fetchUserData,
+  isAuthenticated as checkAuth,
+} from "../utils/userUtils";
 import "../styles/utilities.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
 
@@ -15,11 +21,21 @@ const Home = () => {
       if (checkAuth()) {
         setIsAuthenticated(true);
         const userData = await fetchUserData(localStorage.getItem("userId"));
-        setUserName(userData?.fullName || "Developer");
+        if (userData.message) {
+          toast.error(userData.message, {
+            id: "error",
+            duration: 2000,
+          });
+          setIsAuthenticated(false);
+          localStorage.removeItem("userId");
+          navigate("/login");
+          return;
+        }
+        setUserName(userData?.fullName);
       }
     };
     checkAuthentication();
-  }, []);
+  }, [navigate]);
 
   return (
     <>
@@ -32,10 +48,7 @@ const Home = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
             {isAuthenticated ? (
               <>
-                Welcome back,{" "}
-                <span className="home-title">
-                  {userName}!
-                </span>
+                Welcome back, <span className="home-title">{userName}!</span>
               </>
             ) : (
               <>
@@ -53,18 +66,12 @@ const Home = () => {
           </p>
           <div className="space-y-4 sm:space-y-6">
             {isAuthenticated ? (
-              <Link
-                to="/collaborate"
-                className="home-title-span"
-              >
+              <Link to="/collaborate" className="home-title-span">
                 Start Coding Now
               </Link>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="home-title-span"
-                >
+                <Link to="/login" className="home-title-span">
                   Start Collaboration
                 </Link>
                 <div className="text-white/80 text-sm sm:text-base">
