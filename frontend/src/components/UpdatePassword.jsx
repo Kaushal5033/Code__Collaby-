@@ -25,7 +25,12 @@ const UpdatePassword = () => {
     setLoading(true);
     const userId = getUserId();
    try {
-    const response = await axios.post(`${BASE_URL}/api/update-password/${userId}`,formData)
+    const response = await axios.post(`${BASE_URL}/api/update-password/${userId}`,formData,{
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
     
     if(response.status == 200){
       toast.success(response.data.message, {
@@ -54,7 +59,7 @@ const UpdatePassword = () => {
     <div className="min-h-screen bg-black text-white flex justify-center items-center px-4">
       <div className="bg-zinc-900 p-10 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-3xl font-bold text-center mb-6">
-          Change <span className="text-blue-500">Password</span>
+          Update <span className="text-blue-500">Password</span>
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>

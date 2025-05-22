@@ -5,7 +5,7 @@ import userRoute from "./routes/user.route.js";
 import compilerRoutes from "./routes/compiler.routes.js";
 import resetPasswordRoute from "./routes/resetPassword.route.js";
 import updatePassword from "./controllers/updatePassword.controller.js";
-import changeProfile from "./routes/changeProfile.router.js";
+import changeProfileRoute from "./routes/changeProfile.router.js";
 import verifyJwt from "./middlewares/auth.middleware.js";
 import projectRoutes from "./routes/project.routes.js";
 
@@ -38,7 +38,7 @@ app.use(express.json({ limit: '16kb' }));
 app.use("/api/users", userRoute);
 app.use("/api/compiler", compilerRoutes);
 app.use("/api/change-password", resetPasswordRoute);
-app.use("/api/change-profile", verifyJwt, changeProfile);
+app.use("/api/change-profile", changeProfileRoute);
 app.use("/api/update-password/:userId", verifyJwt, updatePassword);
 app.use("/api/projects",projectRoutes)
 

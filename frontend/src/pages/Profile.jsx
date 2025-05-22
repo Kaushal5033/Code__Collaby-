@@ -25,6 +25,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const userData = await fetchUserData(userId);
         setUserData(userData);
@@ -74,7 +75,9 @@ const EditProfile = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/api/change-profile/${userId}`, formData);
+      await axios.post(`${BASE_URL}/api/change-profile/${userId}`, formData,{
+        withCredentials: true,
+      });
       toast.success("Profile updated successfully", {
         id: "profile-updated",
         duration: 3000,
@@ -131,7 +134,7 @@ const EditProfile = () => {
                 value={formData.email}
                 // onChange={handleChange}
                 disabled
-                className="profile-input"
+                className="profile-input cursor-not-allowed"
                 required
               />
               {showVerify && (
