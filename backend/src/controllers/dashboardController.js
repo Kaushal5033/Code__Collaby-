@@ -3,6 +3,12 @@ import { User } from '../models/user.model.js';
 const getUserDashboard = async (req, res) => {
     try {
         const userId = req.params.userId;
+        if (!userId) {
+            return res.status(400).json({
+                message: 'User ID is required',
+                success: false
+            });
+        }
 
         if (req.user._id.toString() !== userId) {
             return res.status(403).json({
