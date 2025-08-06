@@ -4,7 +4,7 @@ CodeCollaby is a real-time code collaboration platform that allows developers to
 
 ## 🌐 Website
 
-[https://codecollaby.yourdomain.com](https://codecollaby.yourdomain.com) *(Replace with your actual deployed URL)*
+[https://codecollaby-frontend.onrender.com/](https://codecollaby-frontend.onrender.com/) *(Replace with your actual deployed URL)*
 
 ---
 
