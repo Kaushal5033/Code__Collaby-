@@ -2,38 +2,39 @@
 
 CodeCollaby is a real-time code collaboration platform that allows developers to write, edit, and run code together—anytime, anywhere. Built for distributed teams and coding partners, it supports instant code syncing, multiple languages, live execution, and a seamless collaboration experience.
 
-## 🌐 Website
+## Website
 
-[https://codecollaby-frontend.onrender.com/](https://codecollaby-frontend.onrender.com/) *(Replace with your actual deployed URL)*
+[https://codecollaby-frontend.onrender.com/](https://codecollaby-frontend.onrender.com/)
 
 ---
 
-## 🚀 Features
+##Features
 
 1. **Real-Time Code Collaboration**  
    Multiple users can edit code simultaneously and see changes live.
 
 <!-- Example image from Google Drive -->
-![CodeCollaby Screenshot](https://drive.google.com/file/d/12A-Z7-FJMxfsul7_rH9GMaJHRoe2egI_/view?usp=drive_link)
+![CodeCollaby Screenshot](https://drive.google.com/uc?id=12A-Z7-FJMxfsul7_rH9GMaJHRoe2egI_)
+
 
 2. **Live Code Execution**  
-   Run your code directly within the platform and see output instantly.
+   Run your code directly within the platform and see output instantly.  
+   ![CodeCollaby Screenshot](https://drive.google.com/uc?id=17pOlhgNC1rT8ShxJ1JGPDtdEUtsWGtFq)
 
-3. **Multi-Language Support**  
+4. **Multi-Language Support**  
    Supports JavaScript, Python, Java, and C++ with syntax highlighting.
 
-4. **Room-Based Collaboration**  
-   Create private or public rooms and share them with your team to code together.
+5. **Room-Based Collaboration**  
+   Create private or public rooms and share them with your team to code together.  
+   ![CodeCollaby Screenshot](https://drive.google.com/uc?id=1vlYqC6bD75CueMsxt8eTdoTk5bVmndGO)
 
-5. **Integrated Chat (Upcoming)**  
-   Communicate with your teammates while coding with an integrated chat feature.
 
-6. **Authentication**  
+7. **Authentication**  
    Secure login/signup for users to access rooms and collaborate safely.
 
 ---
 
-## 🧠 Tech Stack
+##  Tech Stack
 
 - **Frontend**: React.js + Tailwind CSS  
 - **Backend**: Node.js + Express.js  
@@ -45,7 +46,7 @@ CodeCollaby is a real-time code collaboration platform that allows developers to
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 CodeCollaby/
@@ -71,19 +72,19 @@ CodeCollaby/
 1. **Home Page**
 2. **About Page**
 3. **Login / Sign Up**
-4. **Collaborate Page (Live Editor + Execution + Chat)**
+4. **Collaborate Page (Live Editor + Execution )**
 5. **Create Room Page**
 
 ---
 
-## ⚙️ Getting Started
+##  Getting Started
 
 ### 🛠 Prerequisites
 
 - Node.js (v14+)
 - MongoDB
 
-### 🧩 Installation
+###  Installation
 
 1. **Clone the Repository**
    ```bash
@@ -119,7 +120,7 @@ CodeCollaby/
    - Start backend server:
      ```bash
      cd backend
-     npm start
+     npm run dev
      ```
 
    - Start frontend server:
@@ -133,7 +134,7 @@ CodeCollaby/
 
 ---
 
-## 🔐 Usage
+##  Usage
 
 1. **Sign Up or Log In**
 2. **Create a Collaboration Room**
@@ -144,28 +145,27 @@ CodeCollaby/
 
 ---
 
-## 🌍 Future Scope
+##  Future Scope
 
-- 🧠 AI Suggestions for Code Optimization
-- 💬 Live Chat and Audio Room Integration
-- 📱 Mobile App for Android and iOS
-- 🧪 Test Case Support for Submitted Code
-- 🔐 OAuth & GitHub Sign-In Support
+-  AI Suggestions for Code Optimization
+-  Live Chat and Audio Room Integration
+-  Mobile App for Android and iOS
+-  Test Case Support for Submitted Code
+-  OAuth & GitHub Sign-In Support
 
 ---
 
 
-## 📜 License
+##  License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📬 Contact
+##  Contact
 
 **CodeCollaby Team**  
-📧 Email: [codecollabyy@gmail.com](mailto:codecollabyy@gmail.com)  
-📞 Phone: +91 8744968272, +91 8595433405  
-📍 Delhi, India  
+ Email: [codecollabyy@gmail.com](mailto:codecollabyy@gmail.com) 
+ Delhi, India  
 
 © 2025 Code Collaby. All rights reserved.
