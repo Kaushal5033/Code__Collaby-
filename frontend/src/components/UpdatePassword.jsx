@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { getUserId } from "../utils/userUtils";
-import loader from "../Assets/load2.svg";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const UpdatePassword = () => {
@@ -97,7 +96,7 @@ const UpdatePassword = () => {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl transition"
             disabled={loading}
           >
-            {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Update Password"}
+            {loading ? <img src='/load2.svg' alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Update Password"}
           </button>
         </form>
       </div>

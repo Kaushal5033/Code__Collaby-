@@ -4,7 +4,6 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import toast from "react-hot-toast";
-import loader from "../Assets/load2.svg";
 import "../styles/utilities.css";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -151,7 +150,7 @@ export default function Signup() {
             >
               {loading ? (
                 <img
-                  src={loader}
+                  src='/load2.svg'
                   alt="Loading..."
                   className="w-6 h-6 mx-auto animate-spin"
                 />

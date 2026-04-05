@@ -5,7 +5,6 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import loader from "../Assets/load2.svg";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -174,7 +173,7 @@ const EditProfile = () => {
               >
                 {loading ? (
                   <img
-                    src={loader}
+                    src='/load2.svg'
                     alt="Loading..."
                     className="w-6 h-6 mx-auto animate-spin"
                   />

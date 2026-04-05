@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import loader from "../Assets/load2.svg";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Verifyotp = () => {
@@ -124,7 +123,7 @@ const Verifyotp = () => {
             >
               {loading ? (
                 <img
-                  src={loader}
+                  src='/load2.svg'
                   alt="Loading..."
                   className="w-6 h-6 mx-auto animate-spin"
                 />
