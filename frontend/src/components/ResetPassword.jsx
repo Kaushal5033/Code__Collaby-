@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import loader from "../Assets/load2.svg";
 const ResetPassword = () => {
   const navigate = useNavigate();
   const { token } = useParams(); // assuming /reset-password/:token
@@ -75,7 +74,7 @@ const ResetPassword = () => {
             className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg"
             disabled={loading}
           >
-            {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Reset Password"}
+            {loading ? <img src='/load2.svg' alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Reset Password"}
           </button>
         </form>
       </div>
