@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import loader from "../Assets/load2.svg";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ForgotPassword = () => {
@@ -58,7 +57,7 @@ const ForgotPassword = () => {
             className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg"
             disabled={loading}
           >
-            {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Send Reset Link"}
+            {loading ? <img src='/load2.svg' alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : "Send Reset Link"}
           </button>
         </form>
       </div>

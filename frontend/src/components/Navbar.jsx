@@ -4,7 +4,6 @@ import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import {  getUserId ,logout } from "../utils/userUtils";
 import toast from "react-hot-toast";
-import loader from "../Assets/load2.svg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -102,7 +101,7 @@ const Navbar = () => {
                   }
                   disabled={loading}
                 >
-                  {loading ? <img src={loader} alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : userId ? "Logout" : "Sign Up"}
+                  {loading ? <img src='/load2.svg' alt="Loading..." className="w-6 h-6 mx-auto animate-spin" /> : userId ? "Logout" : "Sign Up"}
                 </button>
               </div>
           </div>
