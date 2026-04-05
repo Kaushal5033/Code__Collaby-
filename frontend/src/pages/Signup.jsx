@@ -1,4 +1,3 @@
-import HomeBg from "../Assets/bg.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -95,7 +94,7 @@ export default function Signup() {
       <Navbar />
       <div
         className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${HomeBg})` }}
+        style={{ backgroundImage: `url(/bg.svg)`}}
       >
         <div className="relative z-10 mx-auto w-full max-w-md p-4 sm:p-6 md:p-10 rounded-3xl bg-white/10 backdrop-blur-xl ring-1 ring-white/30 shadow-2xl text-center space-y-6 sm:space-y-8">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-lg">

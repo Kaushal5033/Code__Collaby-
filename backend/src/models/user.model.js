@@ -46,7 +46,7 @@ userModel.pre("save", async function (next) {
         next(); // Call next after hashing
     } catch (error) {
         console.log(error);
-        next(error); // Pass error to the next middleware (if any)
+        // next(error); // Pass error to the next middleware (if any)
     }
 });
 
