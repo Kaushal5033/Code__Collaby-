@@ -1,30 +1,40 @@
-import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
-dotenv.config()
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
-const sendMail = async (to, subject, text, html = '<div>This is HTML</div>') => {
-    let transport = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.SENDER_MAIL, // Use the sender's email from environment variables
-            pass: process.env.APP_PASSWORD   // Use the app password here instead of your Gmail account password
-        }
-    });
+dotenv.config();
 
-    let mailOptions = {
-        from: process.env.SENDER_MAIL,
-        to: to,
-        subject: subject,
-        text: text,
-        html: html
-    };
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.SENDER_MAIL,
+        pass: process.env.APP_PASSWORD
+    }
+});
 
-    transport.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            console.log('Error in mail sending', err, err.message)
-        }
-        console.log('Mail sent successfully')
-    })
-}
+const sendMail = async (
+    to,
+    subject,
+    text,
+    html = '<div>This is HTML</div>'
+) => {
+    try {
+        const mailOptions = {
+            from: process.env.SENDER_MAIL,
+            to,
+            subject,
+            text,
+            html
+        };
 
-export default sendMail
+        const info = await transporter.sendMail(mailOptions);
+
+        console.log('Mail sent successfully:', info.messageId);
+
+        return info;
+    } catch (err) {
+        console.error('Error in mail sending:', err.message);
+        throw err;
+    }
+};
+
+export default sendMail;

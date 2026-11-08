@@ -16,6 +16,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const UpdatePassword = lazy(() => import("./components/UpdatePassword.jsx"));
 const ResetPassword = lazy(() => import("./components/ResetPassword.jsx"));
 const ForgotPassword = lazy(() => import("./components/ForgotPassword.jsx"));
+const ProjectEditor = lazy(() => import("./pages/ProjectEditor"));
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/edit-profile" element={<Profile />} />
             <Route path="/update-password" element={<UpdatePassword />} />
+            <Route path="/projects/:projectId" element={<ProjectEditor />} />
           </Route>
         </Routes>
       </Suspense>

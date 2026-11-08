@@ -39,9 +39,9 @@ const Collaborate = () => {
       id: 'room-joining',
       duration: 3000,
     });
-    navigate(`/collaborate_2/${roomId}`, {
-      state: { userName },
-    });
+    navigate(`/collaborate_2/${roomId.trim()}`, {
+  state: { userName: userName.trim() },
+   });
   };
 
   return (
